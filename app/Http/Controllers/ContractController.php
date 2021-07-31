@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use App\Models\Contract;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,9 @@ class ContractController extends Controller
      */
     public function index()
     {
-        //
+        $contracts = Contract::with(['client'])->get();
+
+        return view('contracts.index', ['contracts' => $contracts]);
     }
 
     /**
@@ -24,7 +27,8 @@ class ContractController extends Controller
      */
     public function create()
     {
-        //
+        $clients =  Client::all();
+        return view('contracts.create', ['clients' => $clients]);
     }
 
     /**
@@ -35,7 +39,13 @@ class ContractController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // return $request->all();
+        $request->validate([
+            'contract_number' => 'required|unique:contracts',
+        ]);
+        Contract::create($request->all());
+        
+        return redirect()->route('allContracts');
     }
 
     /**
@@ -80,6 +90,7 @@ class ContractController extends Controller
      */
     public function destroy(Contract $contract)
     {
-        //
+        Contract::destroy($contract->id);
+        return redirect()->back();
     }
 }

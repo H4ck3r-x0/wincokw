@@ -7,5 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Contract extends Model
 {
+    public $guarded = [];
+
     use HasFactory;
+
+    public function client()
+    {
+        return $this->belongsTo(Client::class);
+    }
 }
