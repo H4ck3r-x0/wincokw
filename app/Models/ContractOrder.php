@@ -5,14 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Client extends Model
+class ContractOrder extends Model
 {
     use HasFactory;
-    
     public $guarded = [];
 
-    public function contracts()
+    public function contract()
     {
-        return $this->hasMany(Contract::class);
+        return $this->belongsTo(Contract::class);
     }
 }

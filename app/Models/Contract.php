@@ -7,12 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Contract extends Model
 {
-    public $guarded = [];
-
     use HasFactory;
+    
+    public $guarded = [];
 
     public function client()
     {
         return $this->belongsTo(Client::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(ContractOrder::class);
     }
 }
