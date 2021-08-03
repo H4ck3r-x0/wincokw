@@ -12,17 +12,7 @@
 
                     <form method="POST" action="{{ route('saveContract') }}">
                         @csrf
-            
-                        <!-- Contract Year -->
-                        <div>
-                            <x-label for="year" :value="__('Year')" />
-                            <x-input id="year" class="block mt-1 w-full" type="text" name="year" :value="old('year')" required autofocus />
-                            @error('year')
-                             <span class="mt-2 font-semibold text-xs text-red-500">{{ $message }}</span>
-                             @enderror
-                        </div>
-
-                        <!-- Contract Year -->
+                        <!-- Contract Number -->
                         <div class="mt-4">
                             <x-label for="contract_number" :value="__('Contract Number')" />
                             <x-input id="contract_number" class="block mt-1 w-full" type="text" name="contract_number" :value="old('contract_number')"  />

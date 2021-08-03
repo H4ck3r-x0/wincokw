@@ -57,7 +57,7 @@
                                             <x-slot name="content">
                                                 <div class="flex flex-col">
                                                     <a class="px-3 py-3" href="{{ route('allContracts') }}">All Contracts</a>
-                                                    <a class="px-3 py-3" href="{{ route('createContract') }}">New Client</a>
+                                                    <a class="px-3 py-3" href="{{ route('createContract') }}">New Contract</a>
                                                 </div>
                                             </x-slot>
                                         </x-dropdown>

@@ -8,7 +8,7 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
+                <div class="p-6 bg-white border-b border-gray-00">
                     @forelse ($contracts as $contract)
                     <div
                         class="
@@ -19,6 +19,7 @@
                             mb-6
                             shadow-md
                             rounded-lg
+                            {{ $contract->approval_date === null ? '' : 'border-b-4 border-green-400' }}
                         "
                     >
                         <div class="flex flex-col">
@@ -32,13 +33,8 @@
                                     >{{ $contract->contract_number }}</span
                                 >
                             </h3>
-                            <h4 class="text-sm font-semibold">
-                                <span class="text-gray-600"
-                                    >Year: {{ $contract->year }}</span
-                                >
-                            </h4>
                         </div>
-                        <div>
+                        <div class="flex flex-row">
                             <form
                                 action="{{ route('deleteContract', $contract->id) }}"
                                 method="POST"
@@ -47,6 +43,15 @@
                                 <x-delete-button class="ml-3">
                                     {{ __("Delete") }}
                                 </x-delete-button>
+                            </form>
+                            <form
+                                action="{{ route('contractOrders', $contract->id) }}"
+                                method="GET"
+                            >
+                                @csrf
+                                <x-approve-button class="ml-3">
+                                    {{ __("Orders") }}
+                                </x-approve-button>
                             </form>
                         </div>
                     </div>

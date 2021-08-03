@@ -16,7 +16,6 @@ class CreateContractsTable extends Migration
         Schema::create('contracts', function (Blueprint $table) {
             $table->id();
             $table->string('contract_number')->unique();
-            $table->string('year');
             $table->foreignId('client_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });

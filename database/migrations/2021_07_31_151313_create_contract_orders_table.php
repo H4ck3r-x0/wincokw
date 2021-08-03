@@ -15,6 +15,11 @@ class CreateContractOrdersTable extends Migration
     {
         Schema::create('contract_orders', function (Blueprint $table) {
             $table->id();
+            $table->string('year')->nullable();
+            $table->string('order_number')->nullable();
+            $table->date('approval_date')->nullable();
+            $table->date('delivery_date')->nullable();
+            $table->foreignId('contract_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

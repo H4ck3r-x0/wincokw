@@ -1,9 +1,7 @@
 <x-guest-layout>
     <x-auth-card>
         <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
+         <h1 class="p-2  text-4xl font-bold bg-yellow-400 text-blue-900 rounded-r-lg tracking-widest">WinkTrack</h1>
         </x-slot>
 
         <!-- Session Status -->

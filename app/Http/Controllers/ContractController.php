@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon; 
 use App\Models\Client;
 use App\Models\Contract;
 use Illuminate\Http\Request;
@@ -39,10 +40,10 @@ class ContractController extends Controller
      */
     public function store(Request $request)
     {
-        // return $request->all();
         $request->validate([
             'contract_number' => 'required|unique:contracts',
         ]);
+        
         Contract::create($request->all());
         
         return redirect()->route('allContracts');

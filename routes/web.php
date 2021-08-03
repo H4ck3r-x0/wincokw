@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ContractController;
+use App\Http\Controllers\ContractOrderController;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -25,6 +26,7 @@ Route::get('/dashboard/clients', [ClientController::class, 'index'])
 ->middleware(['auth'])
 ->name('allClients');
 
+// Contracts
 Route::get('/dashboard/contracts/create', [ContractController::class, 'create'])
 ->middleware(['auth'])
 ->name('createContract');
@@ -40,5 +42,18 @@ Route::get('/dashboard/contracts', [ContractController::class, 'index'])
 Route::post('/dashboard/contracts/{contract}', [ContractController::class, 'destroy'])
 ->middleware(['auth'])
 ->name('deleteContract');
+
+Route::post('/dashboard/contract/{contract_id}/approve/{order_id}', [ContractOrderController::class, 'approve'])
+->middleware(['auth'])
+->name('approveContract');
+
+// Orders
+Route::get('/dashboard/contract/{contract_id}/orders', [ContractOrderController::class, 'index'])
+->middleware(['auth'])
+->name('contractOrders');
+
+Route::post('/dashboard/contract/{contract_id}/orders', [ContractOrderController::class, 'store'])
+->middleware(['auth'])
+->name('saveOrder');
 
 require __DIR__.'/auth.php';
