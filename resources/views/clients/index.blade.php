@@ -13,7 +13,7 @@
                         <div class="flex justify-between p-4 mb-6 shadow-md rounded-lg">
                             <div class="flex flex-col">
                                 <h1 class="text-xl font-bold text-gray-900">{{ $client->fullname }}</h1>
-                                <h3 class="text-sm">{{ $client->email }}</h3>
+                                <h3 class"text-sm">{{ $client->email }}</h3>
                                 <span class="text-xs">{{ $client->phone }}</span>
                             </div>
                             <div>
