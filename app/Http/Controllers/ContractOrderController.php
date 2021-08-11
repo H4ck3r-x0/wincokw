@@ -33,7 +33,7 @@ class ContractOrderController extends Controller
     public function store(Request $request, $contract_id)
     {
         $request->validate([
-            'order_number' => 'required',
+            'order_number' => 'required|unique:contract_orders',
         ]);
         
         ContractOrder::create([
@@ -42,6 +42,32 @@ class ContractOrderController extends Controller
             'contract_id' => $contract_id,
         ]);
         
+        return redirect()->back();
+    }
+    
+    /**
+     * Show a single order in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function show($contract_id, $order_id)
+    {   
+        $order = ContractOrder::with('contract')->findOrFail($order_id);
+        return view('orders.show', ['order' => $order]);
+    }
+
+
+    /**
+     * Store a newly created order in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($order_id)
+    {   
+         ContractOrder::destroy($order_id);
+      
         return redirect()->back();
     }
 

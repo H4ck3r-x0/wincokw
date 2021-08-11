@@ -13,20 +13,6 @@
                     tracking-wider
                 "
             >
-                Approve Order
-            </th>
-            <th
-                scope="col"
-                class="
-                    px-6
-                    py-3
-                    text-left text-xs
-                    font-medium
-                    text-gray-500
-                    uppercase
-                    tracking-wider
-                "
-            >
                 Year
             </th>
             <th
@@ -99,46 +85,12 @@
             >
                 Actions
             </th>
-            <th
-                scope="col"
-                class="
-                    px-6
-                    py-3
-                    text-left text-xs
-                    font-medium
-                    text-gray-500
-                    uppercase
-                    tracking-wider
-                "
-            ></th>
         </tr>
     </thead>
     <tbody class="bg-white divide-y divide-gray-200">
-        @foreach($contractOrders->orders as $order)
-        <tr class="{{ $order->approval_date !== null ? 'bg-green-50' : '' }}">
-            <td class="whitespace-nowrap">
-                <div class="flex items-center">
-                    <div class="ml-4">
-                        <div class="text-sm font-medium text-gray-900">
-                            <form
-                                action="{{ route('approveContract', [$contractOrders->id, $order->id]) }}"
-                                method="POST"
-                            >
-                                @csrf @if($order->approval_date === null)
-                                <x-approve-button>Approve</x-approve-button>
-                                @else
-                                <x-approve-button disabled
-                                    >Approved</x-approve-button
-                                >
-                                @endif
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </td>
             <td class="px-6 py-4 whitespace-nowrap">
                 <div class="flex items-center">
-                    <div class="ml-4">
+                    <div class="">
                         <div class="text-sm font-medium text-gray-900">
                             {{ $order->year }}
                         </div>
@@ -147,7 +99,7 @@
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
                 <div class="text-sm text-gray-900">
-                    {{ $contractOrders->contract_number }}
+                    {{ $order->contract->contract_number }}
                 </div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
@@ -159,6 +111,7 @@
             <td class="px-6 py-4 whitespace-nowrap">
                 {{ $order->delivery_date ? $order->delivery_date : 'N/A' }}
             </td>
+            
             <td class="px-6 py-4 whitespace-nowrap">
                 <a
                     class="
@@ -179,20 +132,10 @@
                         duration-150
                         ease-in-out
                     "
-                    href="{{ route('orderDetails', [$contractOrders->id, $order->id]) }}"
-                    >Details</a
+                    href="#"
+                    >Send Order</a
                 >
-            </td>
-            <td>
-                <form
-                    action="{{ route('deleteOrder', $order->id) }}"
-                    method="POST"
-                >
-                    @csrf
-                    <x-delete-button>Delete</x-delete-button>
-                </form>
             </td>
         </tr>
-        @endforeach
     </tbody>
 </table>
