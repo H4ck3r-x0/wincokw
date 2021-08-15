@@ -31,6 +31,47 @@
                                 >
                                     @include('orders._showOrderTable')
                                 </div>
+                                <h1
+                                    class="
+                                        text-xl text-gray-400
+                                        tracking-wide
+                                        mt-3
+                                    "
+                                >
+                                    Technical Study
+                                </h1>
+                                <div
+                                    class="
+                                        mt-2
+                                        shadow
+                                        overflow-hidden
+                                        border-b border-gray-200
+                                        sm:rounded-lg
+                                    "
+                                >
+                                    @include('orders._showOrderSentsTable')
+                                </div>
+                                <h1
+                                    class="
+                                        text-xl text-gray-400
+                                        tracking-wide
+                                        mt-3
+                                    "
+                                >
+                                    Purchases
+                                </h1>
+
+                                <div
+                                    class="
+                                        mt-2
+                                        shadow
+                                        overflow-hidden
+                                        border-b border-gray-200
+                                        sm:rounded-lg
+                                    "
+                                >
+                                    @include('orders._showOrderPurchaseTable')
+                                </div>
                             </div>
                         </div>
                     </div>

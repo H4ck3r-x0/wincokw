@@ -153,8 +153,31 @@
             <td class="px-6 py-4 whitespace-nowrap">
                 {{ $order->order_number }}
             </td>
-            <td class="px-6 py-4 whitespace-nowrap">
-                {{ $order->approval_date ? $order->approval_date : 'N/A' }}
+            <td
+                x-data="{ open: false }"
+                class="px-6 py-4 whitespace-nowrap cursor-pointer"
+                @click="open = true"
+            >
+                <span
+                    x-show="!open"
+                    >{{ $order->approval_date ? $order->approval_date : 'N/A' }}</span
+                >
+                @if($order->approval_date !== null)
+                <form
+                    action="{{ route('updateOrderApprovalDate', [$contractOrders->id, $order->id]) }}"
+                    x-show="open"
+                    method="POST"
+                >
+                    @csrf
+                    <input
+                        type="date"
+                        name="approval_date"
+                        value="{{ $order->approval_date }}"
+                    />
+                    <button type="submit">Save</button>
+                </form>
+
+                @endif
             </td>
             <td class="px-6 py-4 whitespace-nowrap">
                 {{ $order->delivery_date ? $order->delivery_date : 'N/A' }}
