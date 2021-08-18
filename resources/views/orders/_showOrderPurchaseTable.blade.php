@@ -56,13 +56,18 @@
                     </div>
                 </div>
             </td>
-            <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm text-gray-900">
-                    {{ $order_purchases ? $order_purchases->actual : 'N/A' }}
+            <td class="px-6 py-4 whitespace-nowrap" x-data="{ open: false }" @click.away="open = false">
+                <div class="text-sm text-gray-900 cursor-pointer" @click="open = true">
+                    <span x-show="!open">{{ $order_purchases->actual ? $order_purchases->actual : 'N/A' }}</span>
+                    <form action="{{ route('updateOrderPurchasesActualDate', [$order_purchases->contract_id, $order_purchases->id]) }}" method="POST" x-show="open">
+                        @csrf
+                        <input type="date" name="actual" id="actual" value="{{ $order_purchases->actual }}">
+                        <button type="submit">Save</button>
+                    </form>
                 </div>
             </td>
-            <td class="px-6 py-4 whitespace-nowrap">
-                Difference
+            <td class="px-6 py-4 whitespace-nowrap {{ $orderPurchasesDiff < 0 ? 'bg-red-400 text-white font-semibold' : 'bg-green-400 text-white font-semibold' }}">
+                {{ $orderPurchasesDiff }}
             </td>
         </tr>
     </tbody>

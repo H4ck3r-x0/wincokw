@@ -54,13 +54,22 @@ class ContractOrderController extends Controller
      */
     public function show($contract_id, $order_id)
     {   
+        $order = ContractOrder::with('contract')->findOrFail($order_id);
+        $order_sent = OrderSent::where(['contract_id' => $contract_id, 'contract_order_id' => $order_id])->first();
+        $orderSentStartTime = Carbon::parse($order_sent->order_scheduled);
+        $orderSentEndTime = Carbon::parse($order_sent->actual);
+
+        $order_purchases = OrderPurchase::where(['contract_id' => $contract_id, 'contract_order_id' => $order_id])->first();
+        $orderPurchasesStartTime = Carbon::parse($order_purchases->purchase_scheduled);
+        $orderPurchasesEndTime = Carbon::parse($order_purchases->actual);
+
         return view('orders.show', 
         [
-        'order' => ContractOrder::with('contract')->findOrFail($order_id), 
-        'order_sent' => OrderSent::where(['contract_id' => $contract_id, 'contract_order_id' => $order_id])
-        ->first(),
-        'order_purchases' => OrderPurchase::where(['contract_id' => $contract_id, 'contract_order_id' => $order_id])
-        ->first()
+            'order' => $order, 
+            'order_sent' => $order_sent,
+            'order_purchases' => $order_purchases,
+            'orderSentDiff' => $order_sent->actual ? $orderSentEndTime->diffInDays($orderSentStartTime, false) : 'N/A',
+            'orderPurchasesDiff' => $order_purchases->actual ? $orderPurchasesEndTime->diffInDays($orderPurchasesStartTime, false) : 'N/A',
         ]);
     }
 
@@ -96,10 +105,37 @@ class ContractOrderController extends Controller
         $orderSent->save();
       
         $orderPurchase = orderPurchase::where(['contract_id' => $contract_id, 'contract_order_id' => $order_id])->first();
-        $orderPurchase->purchase_scheduled = Carbon::parse($request->approval_date)->addDays(5)->format('Y-m-d');
+        $orderPurchase->purchase_scheduled = Carbon::parse($request->approval_date)->addDays(10)->format('Y-m-d');
         $orderPurchase->save();
 
+        return redirect()->back();
+    }
 
+    /**
+     * Update actual date for order Technical Study
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function updateOrderSentActualDate(Request $request, $contract_id, $order_id)
+    {
+        $orderSent = OrderSent::where(['contract_id' => $contract_id, 'contract_order_id' => $order_id])->first();
+        $orderSent->actual = $request->actual;
+        $orderSent->save();
+        return redirect()->back();
+    }
+
+    /**
+     * Update actual date for order Purchases
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function updateOrderPurchasesActualDate(Request $request, $contract_id, $order_id)
+    {
+        $orderPurchase = orderPurchase::where(['contract_id' => $contract_id, 'contract_order_id' => $order_id])->first();
+        $orderPurchase->actual = $request->actual;
+        $orderPurchase->save();
         return redirect()->back();
     }
 
@@ -133,7 +169,6 @@ class ContractOrderController extends Controller
         ]);
     }
 
-     
     // Create order sent date
     protected function orderPurchase($contract_id, $contractOrder)
     {

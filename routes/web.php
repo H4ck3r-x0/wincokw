@@ -60,6 +60,14 @@ Route::post('/dashboard/contract/{contract_id}/order/update_approval/{order_id}'
 ->middleware(['auth'])
 ->name('updateOrderApprovalDate');
 
+Route::post('/dashboard/contract/{contract_id}/order/update_sent_actual_date/{order_id}', [ContractOrderController::class, 'updateOrderSentActualDate'])
+->middleware(['auth'])
+->name('updateOrderSentActualDate');
+
+Route::post('/dashboard/contract/{contract_id}/order/update_Purchases_actual_date/{order_id}', [ContractOrderController::class, 'updateOrderPurchasesActualDate'])
+->middleware(['auth'])
+->name('updateOrderPurchasesActualDate');
+
 Route::post('/dashboard/contract/order/{order_id}', [ContractOrderController::class, 'destroy'])
 ->middleware(['auth'])
 ->name('deleteOrder');

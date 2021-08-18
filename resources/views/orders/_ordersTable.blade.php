@@ -157,6 +157,7 @@
                 x-data="{ open: false }"
                 class="px-6 py-4 whitespace-nowrap cursor-pointer"
                 @click="open = true"
+                @click.away="open = false"
             >
                 <span
                     x-show="!open"
@@ -182,6 +183,7 @@
             <td class="px-6 py-4 whitespace-nowrap">
                 {{ $order->delivery_date ? $order->delivery_date : 'N/A' }}
             </td>
+            @if($order->approval_date !== null)
             <td class="px-6 py-4 whitespace-nowrap">
                 <a
                     class="
@@ -206,6 +208,7 @@
                     >Details</a
                 >
             </td>
+            @endif
             <td>
                 <form
                     action="{{ route('deleteOrder', $order->id) }}"
