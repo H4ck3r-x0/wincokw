@@ -64,9 +64,22 @@ Route::post('/dashboard/contract/{contract_id}/order/update_sent_actual_date/{or
 ->middleware(['auth'])
 ->name('updateOrderSentActualDate');
 
-Route::post('/dashboard/contract/{contract_id}/order/update_Purchases_actual_date/{order_id}', [ContractOrderController::class, 'updateOrderPurchasesActualDate'])
+Route::post('/dashboard/contract/{contract_id}/order/update_purchases_actual_date/{order_id}', [ContractOrderController::class, 'updateOrderPurchasesActualDate'])
 ->middleware(['auth'])
 ->name('updateOrderPurchasesActualDate');
+
+Route::post('/dashboard/contract/{contract_id}/order/update_production_started_date/{order_id}', [ContractOrderController::class, 'updateOrderProductionStartedDate'])
+->middleware(['auth'])
+->name('updateOrderProductionStartedDate');
+
+
+Route::post('/dashboard/contract/{contract_id}/order/update_production_actual_date/{order_id}', [ContractOrderController::class, 'updateOrderProductionActualDate'])
+->middleware(['auth'])
+->name('updateOrderProductionActualDate');
+
+Route::post('/dashboard/contract/{contract_id}/order/update_production_expected_date/{order_id}', [ContractOrderController::class, 'updateOrderProductionExpectedDate'])
+->middleware(['auth'])
+->name('updateOrderProductionExpectedDate');
 
 Route::post('/dashboard/contract/order/{order_id}', [ContractOrderController::class, 'destroy'])
 ->middleware(['auth'])

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\OrderPurchase;
 use App\Models\ContractOrder;
 use App\Models\OrderSent;
+use App\Models\OrderProduction;
 
 class ContractOrderController extends Controller
 {
@@ -63,11 +64,15 @@ class ContractOrderController extends Controller
         $orderPurchasesStartTime = Carbon::parse($order_purchases->purchase_scheduled);
         $orderPurchasesEndTime = Carbon::parse($order_purchases->actual);
 
+        $order_production = OrderProduction::where(['contract_id' => $contract_id, 'contract_order_id' => $order_id])->first();
+
+
         return view('orders.show', 
         [
             'order' => $order, 
             'order_sent' => $order_sent,
             'order_purchases' => $order_purchases,
+            'order_production' => $order_production,
             'orderSentDiff' => $order_sent->actual ? $orderSentEndTime->diffInDays($orderSentStartTime, false) : 'N/A',
             'orderPurchasesDiff' => $order_purchases->actual ? $orderPurchasesEndTime->diffInDays($orderPurchasesStartTime, false) : 'N/A',
         ]);
@@ -155,7 +160,51 @@ class ContractOrderController extends Controller
 
         $this->orderSent($contract_id, $contractOrder);
         $this->orderPurchase($contract_id, $contractOrder);
+        $this->orderProduction($contract_id, $contractOrder);
 
+        return redirect()->back();
+    }
+
+
+    /**
+     * Update productiin started date for order Production
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function updateOrderProductionStartedDate(Request $request, $contract_id, $order_id)
+    {
+        $OrderProduction = OrderProduction::where(['contract_id' => $contract_id, 'contract_order_id' => $order_id])->first();
+        $OrderProduction->production_starts = $request->production_starts;
+        $OrderProduction->save();
+        return redirect()->back();
+    }
+
+    /**
+     * Update productiin actual date for order Production
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function updateOrderProductionActualDate(Request $request, $contract_id, $order_id)
+    {
+        $OrderProduction = OrderProduction::where(['contract_id' => $contract_id, 'contract_order_id' => $order_id])->first();
+        $OrderProduction->actual = $request->actual;
+        $OrderProduction->save();
+        return redirect()->back();
+    }
+    
+     /**
+     * Update productiin expected date for order Production
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function updateOrderProductionExpectedDate(Request $request, $contract_id, $order_id)
+    {
+        $OrderProduction = OrderProduction::where(['contract_id' => $contract_id, 'contract_order_id' => $order_id])->first();
+        $OrderProduction->expected = $request->expected;
+        $OrderProduction->save();
         return redirect()->back();
     }
     
@@ -178,4 +227,14 @@ class ContractOrderController extends Controller
             'contract_order_id' => $contractOrder
         ]);
     }
+
+        // Create order production date
+        protected function orderProduction($contract_id, $contractOrder)
+        {
+            OrderProduction::create([
+                'production_scheduled' => Carbon::now()->addDays(15),
+                'contract_id' => $contract_id,
+                'contract_order_id' => $contractOrder
+            ]);
+        }
 }

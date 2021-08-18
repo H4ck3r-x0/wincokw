@@ -72,6 +72,26 @@
                                 >
                                     @include('orders._showOrderPurchaseTable')
                                 </div>
+                                <h1
+                                    class="
+                                        text-xl text-gray-400
+                                        tracking-wide
+                                        mt-3
+                                    "
+                                >
+                                    Production
+                                </h1>
+                                <div
+                                    class="
+                                        mt-2
+                                        shadow
+                                        overflow-hidden
+                                        border-b border-gray-200
+                                        sm:rounded-lg
+                                    "
+                                >
+                                    @include('orders._showOrderProductionTable')
+                                </div>
                             </div>
                         </div>
                     </div>
