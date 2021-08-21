@@ -65,6 +65,18 @@ class ContractOrderController extends Controller
         $orderPurchasesEndTime = Carbon::parse($order_purchases->actual);
 
         $order_production = OrderProduction::where(['contract_id' => $contract_id, 'contract_order_id' => $order_id])->first();
+        $orderProductionScheduledAt = Carbon::parse($order_production->production_scheduled);
+        $orderProductionActual = $order_production->actual ? Carbon::parse($order_production->actual) : null;
+        $orderProductionExpected = $order_production->expected ? Carbon::parse($order_production->expected) : null;
+        // dd($orderProductionExpected);
+        if(isset($orderProductionActual)) {
+            $orderProductionDiff =  $orderProductionActual->diffInDays($orderProductionScheduledAt, false);
+        } else if(isset($orderProductionExpected)) {
+            $orderProductionDiff =  $orderProductionScheduledAt->diffInDays($orderProductionExpected, false);
+        } else {
+            $orderProductionDiff = 'N/A';
+        }
+
 
 
         return view('orders.show', 
@@ -75,6 +87,7 @@ class ContractOrderController extends Controller
             'order_production' => $order_production,
             'orderSentDiff' => $order_sent->actual ? $orderSentEndTime->diffInDays($orderSentStartTime, false) : 'N/A',
             'orderPurchasesDiff' => $order_purchases->actual ? $orderPurchasesEndTime->diffInDays($orderPurchasesStartTime, false) : 'N/A',
+            'orderProductionDiff' => $orderProductionDiff
         ]);
     }
 
@@ -112,6 +125,10 @@ class ContractOrderController extends Controller
         $orderPurchase = orderPurchase::where(['contract_id' => $contract_id, 'contract_order_id' => $order_id])->first();
         $orderPurchase->purchase_scheduled = Carbon::parse($request->approval_date)->addDays(10)->format('Y-m-d');
         $orderPurchase->save();
+
+        $OrderProduction = OrderProduction::where(['contract_id' => $contract_id, 'contract_order_id' => $order_id])->first();
+        $OrderProduction->production_scheduled = Carbon::parse($request->approval_date)->addDays(15)->format('Y-m-d');
+        $OrderProduction->save();
 
         return redirect()->back();
     }
@@ -174,8 +191,10 @@ class ContractOrderController extends Controller
      */
     public function updateOrderProductionStartedDate(Request $request, $contract_id, $order_id)
     {
+
         $OrderProduction = OrderProduction::where(['contract_id' => $contract_id, 'contract_order_id' => $order_id])->first();
         $OrderProduction->production_starts = $request->production_starts;
+        $OrderProduction->expected = Carbon::create($request->production_starts)->addDays(15);
         $OrderProduction->save();
         return redirect()->back();
     }
@@ -193,20 +212,7 @@ class ContractOrderController extends Controller
         $OrderProduction->save();
         return redirect()->back();
     }
-    
-     /**
-     * Update productiin expected date for order Production
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function updateOrderProductionExpectedDate(Request $request, $contract_id, $order_id)
-    {
-        $OrderProduction = OrderProduction::where(['contract_id' => $contract_id, 'contract_order_id' => $order_id])->first();
-        $OrderProduction->expected = $request->expected;
-        $OrderProduction->save();
-        return redirect()->back();
-    }
+   
     
     // Create order sent date
     protected function orderSent($contract_id, $contractOrder)

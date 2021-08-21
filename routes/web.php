@@ -77,10 +77,6 @@ Route::post('/dashboard/contract/{contract_id}/order/update_production_actual_da
 ->middleware(['auth'])
 ->name('updateOrderProductionActualDate');
 
-Route::post('/dashboard/contract/{contract_id}/order/update_production_expected_date/{order_id}', [ContractOrderController::class, 'updateOrderProductionExpectedDate'])
-->middleware(['auth'])
-->name('updateOrderProductionExpectedDate');
-
 Route::post('/dashboard/contract/order/{order_id}', [ContractOrderController::class, 'destroy'])
 ->middleware(['auth'])
 ->name('deleteOrder');

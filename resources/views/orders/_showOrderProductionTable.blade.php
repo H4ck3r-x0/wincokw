@@ -103,18 +103,13 @@
                     </form>
                 </div>
             </td>
-            <td class="px-6 py-4 whitespace-nowrap" x-data="{ open: false }" @click.away="open = false">
+            <td class="px-6 py-4 whitespace-nowrap" >
                 <div class="text-sm text-gray-900 cursor-pointer" @click="open = true">
-                    <span x-show="!open">{{ $order_production->expected ? $order_production->expected : 'N/A' }}</span>
-                    <form action="{{ route('updateOrderProductionExpectedDate', [$order_production->contract_id, $order_production->contract_order_id]) }}" method="POST" x-show="open">
-                        @csrf
-                        <input type="date" name="expected" id="expected" value="{{ $order_production->expected }}">
-                        <button type="submit">Save</button>
-                    </form>
+                   {{ $order_production->expected ? $order_production->expected : 'N/A' }}
                 </div>
             </td>
-            <td class="px-6 py-4 whitespace-nowrap {{ $orderPurchasesDiff < 0 ? 'bg-red-400 text-white font-semibold' : 'bg-green-400 text-white font-semibold' }}">
-                {{ $orderPurchasesDiff }}
+            <td class="px-6 py-4 whitespace-nowrap {{ $orderProductionDiff < 0 ? 'bg-red-400 text-white font-semibold' : 'bg-green-400 text-white font-semibold' }}">
+                {{ $orderProductionDiff }}
             </td>
         </tr>
     </tbody>
