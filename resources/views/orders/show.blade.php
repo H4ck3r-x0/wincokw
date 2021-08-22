@@ -92,6 +92,26 @@
                                 >
                                     @include('orders._showOrderProductionTable')
                                 </div>
+                                <h1
+                                    class="
+                                        text-xl text-gray-400
+                                        tracking-wide
+                                        mt-3
+                                    "
+                                >
+                                    Distortion
+                                </h1>
+                                <div
+                                    class="
+                                        mt-2
+                                        shadow
+                                        overflow-hidden
+                                        border-b border-gray-200
+                                        sm:rounded-lg
+                                    "
+                                >
+                                    @include('orders._showOrderDistortionsTable')
+                                </div>
                             </div>
                         </div>
                     </div>

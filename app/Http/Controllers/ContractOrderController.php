@@ -9,6 +9,7 @@ use App\Models\OrderPurchase;
 use App\Models\ContractOrder;
 use App\Models\OrderSent;
 use App\Models\OrderProduction;
+use App\Models\OrderDistortion;
 
 class ContractOrderController extends Controller
 {
@@ -57,27 +58,9 @@ class ContractOrderController extends Controller
     {   
         $order = ContractOrder::with('contract')->findOrFail($order_id);
         $order_sent = OrderSent::where(['contract_id' => $contract_id, 'contract_order_id' => $order_id])->first();
-        $orderSentStartTime = Carbon::parse($order_sent->order_scheduled);
-        $orderSentEndTime = Carbon::parse($order_sent->actual);
-
         $order_purchases = OrderPurchase::where(['contract_id' => $contract_id, 'contract_order_id' => $order_id])->first();
-        $orderPurchasesStartTime = Carbon::parse($order_purchases->purchase_scheduled);
-        $orderPurchasesEndTime = Carbon::parse($order_purchases->actual);
-
         $order_production = OrderProduction::where(['contract_id' => $contract_id, 'contract_order_id' => $order_id])->first();
-        $orderProductionScheduledAt = Carbon::parse($order_production->production_scheduled);
-        $orderProductionActual = $order_production->actual ? Carbon::parse($order_production->actual) : null;
-        $orderProductionExpected = $order_production->expected ? Carbon::parse($order_production->expected) : null;
-        // dd($orderProductionExpected);
-        if(isset($orderProductionActual)) {
-            $orderProductionDiff =  $orderProductionActual->diffInDays($orderProductionScheduledAt, false);
-        } else if(isset($orderProductionExpected)) {
-            $orderProductionDiff =  $orderProductionScheduledAt->diffInDays($orderProductionExpected, false);
-        } else {
-            $orderProductionDiff = 'N/A';
-        }
-
-
+        $order_distortion = OrderDistortion::where(['contract_id' => $contract_id, 'contract_order_id' => $order_id])->first();
 
         return view('orders.show', 
         [
@@ -85,10 +68,49 @@ class ContractOrderController extends Controller
             'order_sent' => $order_sent,
             'order_purchases' => $order_purchases,
             'order_production' => $order_production,
-            'orderSentDiff' => $order_sent->actual ? $orderSentEndTime->diffInDays($orderSentStartTime, false) : 'N/A',
-            'orderPurchasesDiff' => $order_purchases->actual ? $orderPurchasesEndTime->diffInDays($orderPurchasesStartTime, false) : 'N/A',
-            'orderProductionDiff' => $orderProductionDiff
+            'order_distortion' => $order_distortion,
+            'orderSentDiff' => $this->orderSentDiff($order_sent),
+            'orderPurchasesDiff' => $this->orderPurchasesDiff($order_purchases),
+            'orderProductionDiff' => $this->orderProductionDiff($order_production)
         ]);
+    }
+
+    protected function orderSentDiff($order_sent)
+    {
+        $orderSentStartTime = Carbon::parse($order_sent->order_scheduled);
+        $orderSentEndTime = Carbon::parse($order_sent->actual);
+
+        if($order_sent->actual) {
+           return $orderSentEndTime->diffInDays($orderSentStartTime, false);
+        } else {
+            return 'N/A';
+        }
+    }
+
+    protected function orderPurchasesDiff($order_purchases)
+    {
+        $orderPurchasesStartTime = Carbon::parse($order_purchases->purchase_scheduled);
+        $orderPurchasesEndTime = Carbon::parse($order_purchases->actual);
+        if($order_purchases->actual) {
+            return $orderPurchasesEndTime->diffInDays($orderPurchasesStartTime, false);
+        } else {
+            return 'N/A';
+        }
+    }
+
+    protected function orderProductionDiff($order_production)
+    {
+        $orderProductionScheduledAt = Carbon::parse($order_production->production_scheduled);
+        $orderProductionActual = $order_production->actual ? Carbon::parse($order_production->actual) : null;
+        $orderProductionExpected = $order_production->expected ? Carbon::parse($order_production->expected) : null;
+        
+        if(isset($orderProductionActual)) {
+            return  $orderProductionActual->diffInDays($orderProductionScheduledAt, false);
+        } else if(isset($orderProductionExpected)) {
+            return  $orderProductionScheduledAt->diffInDays($orderProductionExpected, false);
+        } else {
+            return 'N/A';
+        }
     }
 
     /**
@@ -178,6 +200,7 @@ class ContractOrderController extends Controller
         $this->orderSent($contract_id, $contractOrder);
         $this->orderPurchase($contract_id, $contractOrder);
         $this->orderProduction($contract_id, $contractOrder);
+        $this->OrderDistortion($contract_id, $contractOrder);
 
         return redirect()->back();
     }
@@ -234,11 +257,21 @@ class ContractOrderController extends Controller
         ]);
     }
 
-        // Create order production date
+        // Create order production date 
         protected function orderProduction($contract_id, $contractOrder)
         {
             OrderProduction::create([
                 'production_scheduled' => Carbon::now()->addDays(15),
+                'contract_id' => $contract_id,
+                'contract_order_id' => $contractOrder
+            ]);
+        }
+
+        // Create order distortion date 
+        protected function OrderDistortion($contract_id, $contractOrder)
+        {
+            OrderDistortion::create([
+                'order_dist_scheduled' => Carbon::now()->addDays(20),
                 'contract_id' => $contract_id,
                 'contract_order_id' => $contractOrder
             ]);
