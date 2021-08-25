@@ -1,8 +1,19 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __("Contracts") }}
-        </h2>
+        <div class="flex flex-row items-center">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight mr-3">
+                {{ __("Contracts") }}
+            </h2>
+            <form action="{{ route('allContracts') }}" method="GET">
+                @csrf
+                <input
+                    type="text"
+                    name="search_contracts"
+                    placeholder="Search .."
+                    required
+                />
+            </form>
+        </div>
     </x-slot>
 
     <div class="py-12">

@@ -12,9 +12,14 @@ class ClientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $clients =  Client::all();
+        if($request->search_clients)
+        {
+            $clients = Client::where('fullname', 'like', "%{$request->search_clients}%")->get();
+        } else {
+            $clients =  Client::all();
+        }
         
         return view('clients.index', ['clients' => $clients]);
     }

@@ -32,11 +32,11 @@ Route::get('/dashboard/contracts/create', [ContractController::class, 'create'])
 ->middleware(['auth'])
 ->name('createContract');
 
-Route::post('/dashboard/contracts', [ContractController::class, 'store'])
+Route::post('/dashboard/contracts/', [ContractController::class, 'store'])
 ->middleware(['auth'])
 ->name('saveContract');
 
-Route::get('/dashboard/contracts', [ContractController::class, 'index'])
+Route::get('/dashboard/contracts/{query?}', [ContractController::class, 'index'])
 ->middleware(['auth'])
 ->name('allContracts');
 
@@ -73,21 +73,17 @@ Route::post('/dashboard/contract/{contract_id}/order/update_production_started_d
 ->middleware(['auth'])
 ->name('updateOrderProductionStartedDate');
 
-
 Route::post('/dashboard/contract/{contract_id}/order/update_production_actual_date/{order_id}', [ContractOrderController::class, 'updateOrderProductionActualDate'])
 ->middleware(['auth'])
 ->name('updateOrderProductionActualDate');
-
 
 Route::post('/dashboard/contract/{contract_id}/order/update_distortion_actual_date/{order_id}', [ContractOrderController::class, 'updateOrderDistortionActualDate'])
 ->middleware(['auth'])
 ->name('updateOrderDistortionActualDate');
 
-
 Route::post('/dashboard/contract/{contract_id}/order/update_installation_started_date/{order_id}', [ContractOrderController::class, 'updateOrderInstallStartedDate'])
 ->middleware(['auth'])
 ->name('updateOrderInstallStartedDate');
-
 
 Route::post('/dashboard/contract/{contract_id}/order/update_install_actual_date/{order_id}', [ContractOrderController::class, 'updateOrderInstallActualDate'])
 ->middleware(['auth'])
@@ -98,7 +94,7 @@ Route::post('/dashboard/contract/{contract_id}/order/update_note_actual_date/{or
 ->name('updateOrderNoteActualDate');
 
 // Orders View and fillters
-Route::get('/dashboard/contracts/orders', [OrdersController::class, 'index'])
+Route::get('/dashboard/orders', [OrdersController::class, 'index'])
 ->middleware(['auth'])
 ->name('allOrders');
 

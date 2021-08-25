@@ -8,7 +8,7 @@ class OrdersController extends Controller
 {
     public function index()
     {
-        $sortedOrders = ContractOrder::all();
+        $sortedOrders = ContractOrder::with('contract.user')->get();
 
         return view('ordersView.index', 
         [

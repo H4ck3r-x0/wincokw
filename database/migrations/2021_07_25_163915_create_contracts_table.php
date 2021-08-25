@@ -17,6 +17,7 @@ class CreateContractsTable extends Migration
             $table->id();
             $table->string('contract_number')->unique();
             $table->foreignId('client_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

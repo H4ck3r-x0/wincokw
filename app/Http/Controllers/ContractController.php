@@ -14,9 +14,16 @@ class ContractController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $contracts = Contract::with(['client'])->get();
+        if($request->search_contracts)
+        {
+            $contracts = Contract::whereHas('client', function($query) use ($request) {
+                $query->where('fullname', 'like', "%{$request->search_contracts}%");
+            })->get();
+        } else {
+            $contracts = Contract::with(['client'])->get();
+        }
 
         return view('contracts.index', ['contracts' => $contracts]);
     }
@@ -44,44 +51,12 @@ class ContractController extends Controller
             'contract_number' => 'required|unique:contracts',
         ]);
         
+        $request->request->add(['user_id' => $request->user()->id]);
         Contract::create($request->all());
         
         return redirect()->route('allContracts');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Contract  $contract
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Contract $contract)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Contract  $contract
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Contract $contract)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Contract  $contract
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Contract $contract)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.
