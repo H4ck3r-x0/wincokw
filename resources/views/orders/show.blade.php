@@ -112,6 +112,48 @@
                                 >
                                     @include('orders._showOrderDistortionsTable')
                                 </div>
+
+                                <h1
+                                    class="
+                                        text-xl text-gray-400
+                                        tracking-wide
+                                        mt-3
+                                    "
+                                >
+                                    Installation
+                                </h1>
+                                <div
+                                    class="
+                                        mt-2
+                                        shadow
+                                        overflow-hidden
+                                        border-b border-gray-200
+                                        sm:rounded-lg
+                                    "
+                                >
+                                    @include('orders._showOrderInstallationTable')
+                                </div>
+
+                                <h1
+                                    class="
+                                        text-xl text-gray-400
+                                        tracking-wide
+                                        mt-3
+                                    "
+                                >
+                                    Notes
+                                </h1>
+                                <div
+                                    class="
+                                        mt-2
+                                        shadow
+                                        overflow-hidden
+                                        border-b border-gray-200
+                                        sm:rounded-lg
+                                    "
+                                >
+                                    @include('orders._showOrderNotesTable')
+                                </div>
                             </div>
                         </div>
                     </div>

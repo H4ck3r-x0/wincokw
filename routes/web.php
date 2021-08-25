@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\ContractOrderController;
+use App\Http\Controllers\OrdersController;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -77,6 +78,31 @@ Route::post('/dashboard/contract/{contract_id}/order/update_production_actual_da
 ->middleware(['auth'])
 ->name('updateOrderProductionActualDate');
 
+
+Route::post('/dashboard/contract/{contract_id}/order/update_distortion_actual_date/{order_id}', [ContractOrderController::class, 'updateOrderDistortionActualDate'])
+->middleware(['auth'])
+->name('updateOrderDistortionActualDate');
+
+
+Route::post('/dashboard/contract/{contract_id}/order/update_installation_started_date/{order_id}', [ContractOrderController::class, 'updateOrderInstallStartedDate'])
+->middleware(['auth'])
+->name('updateOrderInstallStartedDate');
+
+
+Route::post('/dashboard/contract/{contract_id}/order/update_install_actual_date/{order_id}', [ContractOrderController::class, 'updateOrderInstallActualDate'])
+->middleware(['auth'])
+->name('updateOrderInstallActualDate');
+
+Route::post('/dashboard/contract/{contract_id}/order/update_note_actual_date/{order_id}', [ContractOrderController::class, 'updateOrderNoteActualDate'])
+->middleware(['auth'])
+->name('updateOrderNoteActualDate');
+
+// Orders View and fillters
+Route::get('/dashboard/contracts/orders', [OrdersController::class, 'index'])
+->middleware(['auth'])
+->name('allOrders');
+
+//
 Route::post('/dashboard/contract/order/{order_id}', [ContractOrderController::class, 'destroy'])
 ->middleware(['auth'])
 ->name('deleteOrder');

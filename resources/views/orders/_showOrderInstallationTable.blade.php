@@ -13,7 +13,7 @@
                     tracking-wider
                 "
             >
-            Production Scheduled At
+            Install Scheduled At
             </th>
             <th
             scope="col"
@@ -27,7 +27,7 @@
                 tracking-wider
             "
         >
-        Production Started At
+        Installation Started At
         </th>
             <th
                 scope="col"
@@ -41,7 +41,7 @@
                     tracking-wider
                 "
             >
-           Production End Date
+           Install End Date
             </th>
             <th
             scope="col"
@@ -78,18 +78,18 @@
                 <div class="flex items-center">
                     <div class="">
                         <div class="text-sm font-medium text-gray-900">
-                            {{ $order_production->production_scheduled ? $order_production->production_scheduled : 'N/A' }}
+                            {{ $order_installation->install_scheduled ? $order_installation->install_scheduled : 'N/A' }}
                         </div>
                     </div>
                 </div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap" x-data="{ open: false }" @click.away="open = false">
                 <div class="text-sm text-gray-900 cursor-pointer" @click="open = true">
-                    <span x-show="!open">{{ $order_production->production_starts ? $order_production->production_starts : 'N/A' }}</span>
-                    @if($order_purchases->actual)
-                    <form action="{{ route('updateOrderProductionStartedDate', [$order_production->contract_id, $order_production->contract_order_id]) }}" method="POST" x-show="open">
+                    <span x-show="!open">{{ $order_installation->install_starts ? $order_installation->install_starts : 'N/A' }}</span>
+                    @if($order_distortion->actual)
+                    <form action="{{ route('updateOrderInstallStartedDate', [$order_installation->contract_id, $order_installation->contract_order_id]) }}" method="POST" x-show="open">
                         @csrf
-                        <input type="date" name="production_starts" id="production_starts" value="{{ $order_production->production_starts }}">
+                        <input type="date" name="install_starts" id="install_starts" value="{{ $order_installation->install_starts }}">
                         <button type="submit">Save</button>
                     </form>
                     @endif
@@ -97,11 +97,11 @@
             </td>
             <td class="px-6 py-4 whitespace-nowrap" x-data="{ open: false }" @click.away="open = false">
                 <div class="text-sm text-gray-900 cursor-pointer" @click="open = true">
-                    <span x-show="!open">{{ $order_production->actual ? $order_production->actual : 'N/A' }}</span>
-                    @if($order_purchases->actual)
-                    <form action="{{ route('updateOrderProductionActualDate', [$order_production->contract_id, $order_production->contract_order_id]) }}" method="POST" x-show="open">
+                    <span x-show="!open">{{ $order_installation->actual ? $order_installation->actual : 'N/A' }}</span>
+                    @if($order_distortion->actual)
+                    <form action="{{ route('updateOrderInstallActualDate', [$order_installation->contract_id, $order_installation->contract_order_id]) }}" method="POST" x-show="open">
                         @csrf
-                        <input type="date" name="actual" id="actual" value="{{ $order_production->actual }}">
+                        <input type="date" name="actual" id="actual" value="{{ $order_installation->actual }}">
                         <button type="submit">Save</button>
                     </form>
                     @endif
@@ -109,11 +109,11 @@
             </td>
             <td class="px-6 py-4 whitespace-nowrap" >
                 <div class="text-sm text-gray-900 cursor-pointer" @click="open = true">
-                   {{ $order_production->expected ? $order_production->expected : 'N/A' }}
+                   {{ $order_installation->expected ? $order_installation->expected : 'N/A' }}
                 </div>
             </td>
-            <td class="px-6 py-4 whitespace-nowrap {{ $orderProductionDiff < 0 ? 'bg-red-400 text-white font-semibold' : 'bg-green-400 text-white font-semibold' }}">
-                {{ $orderProductionDiff }}
+            <td class="px-6 py-4 whitespace-nowrap {{ $orderInstallDiff < 0 ? 'bg-red-400 text-white font-semibold' : 'bg-green-400 text-white font-semibold' }}">
+                {{ $orderInstallDiff }}
             </td>
         </tr>
     </tbody>

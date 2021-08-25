@@ -13,7 +13,7 @@
                     tracking-wider
                 "
             >
-            Purchases Scheduled At
+            Notes Scheduled At
             </th>
    
             <th
@@ -51,27 +51,26 @@
                 <div class="flex items-center">
                     <div class="">
                         <div class="text-sm font-medium text-gray-900">
-                            {{ $order_purchases ? $order_purchases->purchase_scheduled : 'N/A' }}
+                            {{ $order_notes ? $order_notes->order_note_scheduled : 'N/A' }}
                         </div>
                     </div>
                 </div>
             </td>
-           
             <td class="px-6 py-4 whitespace-nowrap" x-data="{ open: false }" @click.away="open = false">
-                <div class="text-sm text-gray-900 cursor-pointer"  @click="open = true">
-                    <span x-show="!open">{{ $order_purchases->actual ? $order_purchases->actual : 'N/A' }}</span>
-                    @if($order_sent->actual) 
-                    <form action="{{ route('updateOrderPurchasesActualDate', [$order_purchases->contract_id, $order_purchases->contract_order_id]) }}" method="POST" x-show="open">
+                <div class="text-sm text-gray-900 cursor-pointer" @click="open = true">
+                    <span x-show="!open">{{ $order_notes->actual ? $order_notes->actual : 'N/A' }}</span>
+                    @if($order_installation->install_starts || $order_installation->actual)
+                    <form action="{{ route('updateOrderNoteActualDate', [$order_notes->contract_id, $order->id]) }}" method="POST" x-show="open">
                         @csrf
-                        <input type="date" name="actual" id="actual" value="{{ $order_purchases->actual }}">
+                        <input type="date" name="actual" id="actual" value="{{ $order_notes->actual }}">
                         <button type="submit">Save</button>
                     </form>
                     @endif
                 </div>
             </td>
-           
-            <td class="px-6 py-4 whitespace-nowrap {{ $orderPurchasesDiff < 0 ? 'bg-red-400 text-white font-semibold' : 'bg-green-400 text-white font-semibold' }}">
-                {{ $orderPurchasesDiff }}
+            <td 
+            class="px-6 py-4 whitespace-nowrap {{ $orderNoteDiff < 0 ? 'bg-red-400 text-white font-semibold' : 'bg-green-400 text-white font-semibold' }}">
+                {{ $orderNoteDiff }}
             </td>
         </tr>
     </tbody>

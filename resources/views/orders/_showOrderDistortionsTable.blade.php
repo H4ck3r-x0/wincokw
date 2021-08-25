@@ -59,16 +59,18 @@
             <td class="px-6 py-4 whitespace-nowrap" x-data="{ open: false }" @click.away="open = false">
                 <div class="text-sm text-gray-900 cursor-pointer" @click="open = true">
                     <span x-show="!open">{{ $order_distortion->actual ? $order_distortion->actual : 'N/A' }}</span>
-                    <form action="{{ route('updateOrderSentActualDate', [$order_sent->contract_id, $order->id]) }}" method="POST" x-show="open">
+                    @if($order_production->production_starts || $order_production->actual)
+                    <form action="{{ route('updateOrderDistortionActualDate', [$order_sent->contract_id, $order->id]) }}" method="POST" x-show="open">
                         @csrf
                         <input type="date" name="actual" id="actual" value="{{ $order_distortion->actual }}">
                         <button type="submit">Save</button>
                     </form>
+                    @endif
                 </div>
             </td>
             <td 
-            class="px-6 py-4 whitespace-nowrap {{ $orderSentDiff < 0 ? 'bg-red-400 text-white font-semibold' : 'bg-green-400 text-white font-semibold' }}">
-                <!-- {{ $orderSentDiff }} -->
+            class="px-6 py-4 whitespace-nowrap {{ $orderDistortionDiff < 0 ? 'bg-red-400 text-white font-semibold' : 'bg-green-400 text-white font-semibold' }}">
+                {{ $orderDistortionDiff }}
             </td>
         </tr>
     </tbody>
