@@ -1,3 +1,4 @@
+@if($order_purchases->actual)
 <table class="min-w-full divide-y divide-gray-200">
     <thead class="bg-gray-50">
         <tr>
@@ -86,25 +87,25 @@
             <td class="px-6 py-4 whitespace-nowrap" x-data="{ open: false }" @click.away="open = false">
                 <div class="text-sm text-gray-900 cursor-pointer" @click="open = true">
                     <span x-show="!open">{{ $order_production->production_starts ? $order_production->production_starts : 'N/A' }}</span>
-                    @if($order_purchases->actual)
+                   
                     <form action="{{ route('updateOrderProductionStartedDate', [$order_production->contract_id, $order_production->contract_order_id]) }}" method="POST" x-show="open">
                         @csrf
                         <input type="date" name="production_starts" id="production_starts" value="{{ $order_production->production_starts }}">
                         <button type="submit">Save</button>
                     </form>
-                    @endif
+              
                 </div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap" x-data="{ open: false }" @click.away="open = false">
                 <div class="text-sm text-gray-900 cursor-pointer" @click="open = true">
                     <span x-show="!open">{{ $order_production->actual ? $order_production->actual : 'N/A' }}</span>
-                    @if($order_purchases->actual)
+         
                     <form action="{{ route('updateOrderProductionActualDate', [$order_production->contract_id, $order_production->contract_order_id]) }}" method="POST" x-show="open">
                         @csrf
                         <input type="date" name="actual" id="actual" value="{{ $order_production->actual }}">
                         <button type="submit">Save</button>
                     </form>
-                    @endif
+                 
                 </div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap" >
@@ -118,3 +119,4 @@
         </tr>
     </tbody>
 </table>
+@endif

@@ -1,3 +1,4 @@
+@if($order_sent->actual) 
 <table class="min-w-full divide-y divide-gray-200">
     <thead class="bg-gray-50">
         <tr>
@@ -60,13 +61,13 @@
             <td class="px-6 py-4 whitespace-nowrap" x-data="{ open: false }" @click.away="open = false">
                 <div class="text-sm text-gray-900 cursor-pointer"  @click="open = true">
                     <span x-show="!open">{{ $order_purchases->actual ? $order_purchases->actual : 'N/A' }}</span>
-                    @if($order_sent->actual) 
+               
                     <form action="{{ route('updateOrderPurchasesActualDate', [$order_purchases->contract_id, $order_purchases->contract_order_id]) }}" method="POST" x-show="open">
                         @csrf
                         <input type="date" name="actual" id="actual" value="{{ $order_purchases->actual }}">
                         <button type="submit">Save</button>
                     </form>
-                    @endif
+              
                 </div>
             </td>
            
@@ -76,3 +77,4 @@
         </tr>
     </tbody>
 </table>
+@endif

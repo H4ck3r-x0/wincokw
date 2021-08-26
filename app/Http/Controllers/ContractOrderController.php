@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon; 
+use App\Models\User;
 use App\Models\Contract;
 use Illuminate\Http\Request;
 use App\Models\OrderPurchase;
@@ -13,6 +14,7 @@ use App\Models\OrderProduction;
 use App\Models\OrderDistortion;
 use App\Models\OrderInstallation;
 use Illuminate\Validation\Rule;
+use Spatie\Activitylog\Models\Activity;
 
 class ContractOrderController extends Controller
 {
@@ -67,6 +69,12 @@ class ContractOrderController extends Controller
     public function show($contract_id, $order_id)
     {   
         $order = ContractOrder::with(['contract', 'contract.user'])->findOrFail($order_id);
+        $orderActivityCreated = Activity::where('subject_id', $order->id)->where('description', 'created')->latest()->first();
+        $orderActivityUpdated = Activity::where('subject_id', $order->id)->where('description', 'updated')->latest()->first();
+
+        $orderCreatedBy = User::find($orderActivityCreated->causer_id);
+        $orderUpdatedBy = User::find($orderActivityUpdated->causer_id);
+ 
         $order_sent = OrderSent::where(['contract_id' => $contract_id, 'contract_order_id' => $order_id])->first();
         $order_purchases = OrderPurchase::where(['contract_id' => $contract_id, 'contract_order_id' => $order_id])->first();
         $order_production = OrderProduction::where(['contract_id' => $contract_id, 'contract_order_id' => $order_id])->first();
@@ -89,6 +97,10 @@ class ContractOrderController extends Controller
             'orderDistortionDiff' => $this->orderDistortionDiff($order_distortion),
             'orderInstallDiff' => $this->orderInstallationDiff($order_installation),
             'orderNoteDiff' => $this->orderNoteDiff($order_notes),
+            'orderCreatedBy' => $orderCreatedBy,
+            'orderUpdatedBy' => $orderUpdatedBy,
+            'orderActivityCreated' => $orderActivityCreated,
+            'orderActivityUpdated' => $orderActivityUpdated
         ]);
     }
 
