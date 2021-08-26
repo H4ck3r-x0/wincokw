@@ -12,6 +12,7 @@ use App\Models\OrderNote;
 use App\Models\OrderProduction;
 use App\Models\OrderDistortion;
 use App\Models\OrderInstallation;
+use Illuminate\Validation\Rule;
 
 class ContractOrderController extends Controller
 {
@@ -37,15 +38,21 @@ class ContractOrderController extends Controller
      */
     public function store(Request $request, $contract_id)
     {
-        //|unique:contract_orders,
+        $contract = Contract::find($contract_id);
+
         $request->validate([
-            'order_number' => 'required',
+            'order_number' => [
+                'required',
+                Rule::unique('contract_orders')->where(function ($query) use($contract) {
+                return $query->where('client_id', $contract->client_id);
+            })],
         ]);
         
         ContractOrder::create([
             'year' =>  Carbon::now()->format('Y'),
             'order_number' => $request->order_number,
             'contract_id' => $contract_id,
+            'client_id' => $contract->client_id
         ]);
         
         return redirect()->back();
@@ -59,7 +66,7 @@ class ContractOrderController extends Controller
      */
     public function show($contract_id, $order_id)
     {   
-        $order = ContractOrder::with('contract')->findOrFail($order_id);
+        $order = ContractOrder::with(['contract', 'contract.user'])->findOrFail($order_id);
         $order_sent = OrderSent::where(['contract_id' => $contract_id, 'contract_order_id' => $order_id])->first();
         $order_purchases = OrderPurchase::where(['contract_id' => $contract_id, 'contract_order_id' => $order_id])->first();
         $order_production = OrderProduction::where(['contract_id' => $contract_id, 'contract_order_id' => $order_id])->first();

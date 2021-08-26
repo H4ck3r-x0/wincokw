@@ -19,7 +19,8 @@ class ContractController extends Controller
         if($request->search_contracts)
         {
             $contracts = Contract::whereHas('client', function($query) use ($request) {
-                $query->where('fullname', 'like', "%{$request->search_contracts}%");
+                $query->where('fullname', 'like', "%{$request->search_contracts}%")
+                ->orWhere('contract_number', 'like', "%{$request->search_contracts}%");
             })->get();
         } else {
             $contracts = Contract::with(['client'])->get();

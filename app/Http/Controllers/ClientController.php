@@ -16,7 +16,9 @@ class ClientController extends Controller
     {
         if($request->search_clients)
         {
-            $clients = Client::where('fullname', 'like', "%{$request->search_clients}%")->get();
+            $clients = Client::where('fullname', 'like', "%{$request->search_clients}%")
+            ->orWhere('phone', 'like', "%{$request->search_clients}%")
+            ->get();
         } else {
             $clients =  Client::all();
         }

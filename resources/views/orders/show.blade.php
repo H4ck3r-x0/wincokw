@@ -21,6 +21,36 @@
                                     lg:px-8
                                 "
                             >
+                            <h1
+                            class="
+                                text-xl text-gray-400
+                                tracking-wide
+                                mb-3
+                            "
+                        >
+                            Order Details
+                        </h1>
+                        
+                            <div
+                            class="
+                                shadow
+                                overflow-hidden
+                                border-b border-gray-200
+                                sm:rounded-lg
+                                mb-3
+                            "
+                        >
+                            @include('orders._showOrderDetailsTable')
+                        </div>
+                        <h1
+                        class="
+                            text-xl text-gray-400
+                            tracking-wide
+                            mb-3
+                        "
+                    >
+                        Contract Details
+                    </h1>
                                 <div
                                     class="
                                         shadow

@@ -12,7 +12,7 @@ class OrdersController extends Controller
 
         return view('ordersView.index', 
         [
-            'sortedOrders' => $sortedOrders->sortByDesc('approval_date')->where('approval_date', '!==', null)
+            'sortedOrders' => $sortedOrders->sortBy('approval_date')->where('approval_date', '!==', null)
          ]);
     }
 }

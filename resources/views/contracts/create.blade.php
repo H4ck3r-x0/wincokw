@@ -14,11 +14,14 @@
                         @csrf
                         <!-- Contract Number -->
                         <div class="mt-4">
-                            <x-label for="contract_number" :value="__('Contract Number')" />
-                            <x-input id="contract_number" class="block mt-1 w-full" type="text" name="contract_number" :value="old('contract_number')"  />
+                          <div class="flex flex-row ">
+                            <!-- <input class="mr-3 block rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" 
+                            type="number" min="2017"  step="1" value="2021" name="year" required /> -->
+                            <x-input id="contract_number" class="block mt-1 w-full" type="text" name="contract_number" placeholder="Contract Number" :value="old('contract_number')"  />
                             @error('contract_number')
                                 <span class="mt-2 font-semibold text-xs text-red-500">{{ $message }}</span>
                             @enderror
+                          </div>
                         </div>
 
                         <!-- Client -->

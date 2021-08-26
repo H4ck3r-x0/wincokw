@@ -20,6 +20,7 @@ class CreateContractOrdersTable extends Migration
             $table->date('approval_date')->nullable();
             $table->date('delivery_date')->nullable();
             $table->foreignId('contract_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('client_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
