@@ -5,6 +5,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\ContractOrderController;
 use App\Http\Controllers\OrdersController;
+use App\Http\Controllers\SaleCategoriesController;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -107,5 +108,19 @@ Route::post('/dashboard/contract/order/{order_id}', [ContractOrderController::cl
 Route::post('/dashboard/contract/{contract_id}/orders', [ContractOrderController::class, 'store'])
 ->middleware(['auth'])
 ->name('saveOrder');
+
+
+
+// Sales Routes and sales item category
+Route::get('/dashboard/sales/create_item_category', [SaleCategoriesController::class, 'index'])
+->middleware(['auth'])
+->name('createItemCategory');
+
+Route::post('/dashboard/sales/save_item_category', [SaleCategoriesController::class, 'store'])
+->middleware(['auth'])
+->name('saveItemCategory');
+
+
+
 
 require __DIR__.'/auth.php';
