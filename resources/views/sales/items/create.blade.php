@@ -67,7 +67,7 @@
     </div>
 
 
-
+@if($items->isNotEmpty())
     <div class="py-2">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -195,7 +195,7 @@
                                     {{ $item->me_unit_sec }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    {{ $item->item_price }}
+                                     @money($item->item_price, 'KWD', true) 
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     {{ $item->category->name }}
@@ -209,5 +209,6 @@
                 </table>
             </div>
         </div>
-    </div>    
+    </div>
+@endif
 </x-app-layout>
