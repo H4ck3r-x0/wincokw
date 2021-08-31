@@ -6,6 +6,8 @@ use App\Http\Controllers\ContractController;
 use App\Http\Controllers\ContractOrderController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\SaleCategoriesController;
+use App\Http\Controllers\SalesItemController;
+
 
 Route::get('/', function () {
     return redirect('/login');
@@ -120,6 +122,14 @@ Route::post('/dashboard/sales/save_item_category', [SaleCategoriesController::cl
 ->middleware(['auth'])
 ->name('saveItemCategory');
 
+
+Route::get('/dashboard/sales/create_sales_items', [SalesItemController::class, 'create'])
+->middleware(['auth'])
+->name('createItem');
+
+Route::post('/dashboard/sales/save_sales_items', [SalesItemController::class, 'store'])
+->middleware(['auth'])
+->name('saveSalesItem');
 
 
 

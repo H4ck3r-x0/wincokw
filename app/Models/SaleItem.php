@@ -9,4 +9,9 @@ class SaleItem extends Model
 {
     use HasFactory;
     public $guarded = [];
+
+    public function category()
+    {
+        return $this->belongsTo(ItemCategory::class, 'item_categories_id');
+    }
 }

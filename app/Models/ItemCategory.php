@@ -9,4 +9,5 @@ class ItemCategory extends Model
 {
     use HasFactory;
     public $guarded = [];
+
 }

@@ -104,6 +104,7 @@
                                 <x-slot name="content">
                                     <div class="flex flex-col">
                                         <a class="px-3 py-3" href="{{ route('createItemCategory') }}">Create Category</a>
+                                        <a class="px-3 py-3" href="{{ route('createItem') }}">Create Sales Items</a>
                                     </div>
                                 </x-slot>
                             </x-dropdown>
