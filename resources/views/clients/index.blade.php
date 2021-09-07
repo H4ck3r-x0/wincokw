@@ -1,14 +1,14 @@
 <x-app-layout>
     <x-slot name="header">
-    <div class="flex flex-row items-center">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight mr-3">
-            {{ __('Clients') }}
-        </h2>
-        <form action="{{ route('allClients') }}" method="GET">
-            @csrf
-            <input type="text" name="search_clients" placeholder="Search">
-        </form>
-    </div>
+        <div class="flex flex-row items-center">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight mr-3">
+                {{ __('Clients') }}
+            </h2>
+            <form action="{{ route('allClients') }}" method="GET">
+                @csrf
+                <input type="text" name="search_clients" placeholder="Search">
+            </form>
+        </div>
     </x-slot>
 
     <div class="py-12">
@@ -21,9 +21,7 @@
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
                             <tr>
-                                <th
-                                    scope="col"
-                                    class="
+                                <th scope="col" class="
                                         px-6
                                         py-3
                                         text-left text-xs
@@ -31,13 +29,10 @@
                                         text-gray-500
                                         uppercase
                                         tracking-wider
-                                    "
-                                >
+                                    ">
                                     #id
                                 </th>
-                                <th
-                                    scope="col"
-                                    class="
+                                <th scope="col" class="
                                         px-6
                                         py-3
                                         text-left text-xs
@@ -45,13 +40,10 @@
                                         text-gray-500
                                         uppercase
                                         tracking-wider
-                                    "
-                                >
+                                    ">
                                     name
                                 </th>
-                                <th
-                                    scope="col"
-                                    class="
+                                <th scope="col" class="
                                         px-6
                                         py-3
                                         text-left text-xs
@@ -59,13 +51,10 @@
                                         text-gray-500
                                         uppercase
                                         tracking-wider
-                                    "
-                                >
+                                    ">
                                     email
                                 </th>
-                                <th
-                                    scope="col"
-                                    class="
+                                <th scope="col" class="
                                         px-6
                                         py-3
                                         text-left text-xs
@@ -73,13 +62,10 @@
                                         text-gray-500
                                         uppercase
                                         tracking-wider
-                                    "
-                                >
-                                Phone Number
+                                    ">
+                                    Phone Number
                                 </th>
-                                <th
-                                    scope="col"
-                                    class="
+                                <th scope="col" class="
                                         px-6
                                         py-3
                                         text-left text-xs
@@ -87,8 +73,7 @@
                                         text-gray-500
                                         uppercase
                                         tracking-wider
-                                    "
-                                >actions</th>
+                                    ">actions</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
@@ -101,32 +86,52 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
+                                <td class="px-6 py-4 whitespace-nowrap" x-data="{ open: false }" @click.away="open = false">
                                     <div class="flex items-center">
                                         <div class="ml-4">
-                                            <div class="text-sm font-medium text-gray-900">
+                                            <div class="text-sm font-medium text-gray-900" @click="open = true" x-show="!open">
                                                 {{ $client->fullname }}
+                                            </div>
+                                            <div class="text-sm font-medium text-gray-900" x-show="open">
+                                                <form action="{{ route('updateClient', $client->id) }}" method="POST">
+                                                    @csrf
+                                                    <input type="text" name="fullname" value={{ $client->fullname }} />
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900">
+                                <td class="px-6 py-4 whitespace-nowrap" x-data="{ open: false }" @click.away="open = false">
+                                    <div class="text-sm text-gray-900" @click="open = true" x-show="!open">
                                         {{ $client->email }}
                                     </div>
+
+                                    <div class="text-sm font-medium text-gray-900" x-show="open">
+                                        <form action="{{ route('updateClient', $client->id) }}" method="POST">
+                                            @csrf
+                                            <input type="text" name="email" value={{ $client->email }} />
+                                        </form>
+                                    </div>
                                 </td>
+                                <td class="px-6 py-4 whitespace-nowrap" x-data="{ open: false }" @click.away="open = false">
+                                    <div class="text-sm text-gray-900" @click="open = true" x-show="!open">
+                                        {{ $client->phone }}
+                                    </div>
+                                    <div class="text-sm font-medium text-gray-900" x-show="open">
+                                        <form action="{{ route('updateClient', $client->id) }}" method="POST">
+                                            @csrf
+                                            <input type="text" name="phone" value={{ $client->phone }} />
+                                        </form>
+                                    </div>
+                                </td>
+
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    {{ $client->phone }}
-                                </td>
-                             
-                                <td>
-                                    <form
-                                        action="#"
-                                        method="POST"
-                                    >
-                                        @csrf
-                                        <x-edit-button>Edit</x-edit-button>
-                                    </form>
+                                    <div class="flex flex-row">
+                                        <form action="{{ route('destroyClient', $client->id) }}" method="POST">
+                                            @csrf
+                                            <x-delete-button>Delete</x-delete-button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach
@@ -137,4 +142,3 @@
         </div>
     </div>
 </x-app-layout>
-

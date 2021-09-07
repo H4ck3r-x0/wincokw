@@ -13,7 +13,7 @@ class SalesItemController extends Controller
     {
         $categories = ItemCategory::all();
         $items = SaleItem::with('category')->get();
-  
+
         return view('sales.items.create', ['categories' => $categories, 'items' => $items]);
     }
 
@@ -30,6 +30,5 @@ class SalesItemController extends Controller
         SaleItem::create($request->all());
 
         return redirect()->route('createItem');
-
     }
 }

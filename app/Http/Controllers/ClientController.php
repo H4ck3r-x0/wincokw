@@ -14,15 +14,14 @@ class ClientController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->search_clients)
-        {
+        if ($request->search_clients) {
             $clients = Client::where('fullname', 'like', "%{$request->search_clients}%")
-            ->orWhere('phone', 'like', "%{$request->search_clients}%")
-            ->get();
+                ->orWhere('phone', 'like', "%{$request->search_clients}%")
+                ->get();
         } else {
             $clients =  Client::all();
         }
-        
+
         return view('clients.index', ['clients' => $clients]);
     }
 
@@ -79,7 +78,23 @@ class ClientController extends Controller
      */
     public function update(Request $request, Client $client)
     {
-        //
+        if (isset($request->fullname)) {
+            $client->fullname = $request->fullname;
+            $client->save();
+            return redirect()->route('allClients');
+        }
+
+        if (isset($request->email)) {
+            $client->email = $request->email;
+            $client->save();
+            return redirect()->route('allClients');
+        }
+
+        if (isset($request->phone)) {
+            $client->phone = $request->phone;
+            $client->save();
+            return redirect()->route('allClients');
+        }
     }
 
     /**
@@ -88,8 +103,9 @@ class ClientController extends Controller
      * @param  \App\Models\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Client $client)
+    public function destroy($client)
     {
-        //
+        Client::destroy($client);
+        return redirect()->route('allClients');
     }
 }

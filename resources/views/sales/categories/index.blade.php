@@ -10,7 +10,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-00">
                     <form method="POST" action="{{ route('saveItemCategory') }}">
-                    @csrf
+                        @csrf
                         <!-- Item Category name -->
                         <div>
                             <x-label for="name" :value="__('Category Name')" />
@@ -33,9 +33,7 @@
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
                             <tr>
-                                <th
-                                    scope="col"
-                                    class="
+                                <th scope="col" class="
                                         px-6
                                         py-3
                                         text-left text-xs
@@ -43,13 +41,10 @@
                                         text-gray-500
                                         uppercase
                                         tracking-wider
-                                    "
-                                >
+                                    ">
                                     #
                                 </th>
-                                <th
-                                    scope="col"
-                                    class="
+                                <th scope="col" class="
                                         px-6
                                         py-3
                                         text-left text-xs
@@ -57,14 +52,11 @@
                                         text-gray-500
                                         uppercase
                                         tracking-wider
-                                    "
-                                >
+                                    ">
                                     Category Name
                                 </th>
 
-                                <th
-                                    scope="col"
-                                    class="
+                                <th scope="col" class="
                                         px-6
                                         py-3
                                         text-left text-xs
@@ -72,21 +64,32 @@
                                         text-gray-500
                                         uppercase
                                         tracking-wider
-                                    "
-                                >
+                                    ">
                                     Created at
+                                </th>
+
+                                <th scope="col" class="
+                                        px-6
+                                        py-3
+                                        text-left text-xs
+                                        font-medium
+                                        text-gray-500
+                                        uppercase
+                                        tracking-wider
+                                    ">
+
                                 </th>
                             </tr>
                         </thead>
-                    <tbody class="bg-white  divide-gray-200">
-                        @foreach($categories as $category)
+                        <tbody class="bg-white  divide-gray-200">
+                            @foreach($categories as $category)
                             <tr>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="text-sm text-gray-900">
                                         {{ $category->id }}
                                     </div>
                                 </td>
-                            
+
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     {{ $category->name }}
                                 </td>
@@ -94,12 +97,23 @@
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     {{ $category->created_at->diffForHumans() }}
                                 </td>
+
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div>
+                                        <form action="{{ route('destroyItemCategory', $category->id) }}" method="POST">
+                                            @csrf
+                                            <x-delete-button class="ml-3">
+                                                {{ __("Delete") }}
+                                            </x-delete-button>
+                                        </form>
+                                    </div>
+                                </td>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
     </div>
 </x-app-layout>

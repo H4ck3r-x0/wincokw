@@ -27,4 +27,10 @@ class SaleCategoriesController extends Controller
 
         return redirect()->route('createItemCategory');
     }
+
+    public function destroy($category)
+    {
+        ItemCategory::destroy($category);
+        return redirect()->route('createItemCategory');
+    }
 }

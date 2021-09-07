@@ -10,51 +10,61 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-00">
                     <form method="POST" action="{{ route('saveSalesItem') }}">
-                    @csrf
+                        @csrf
 
                         <!-- Item name -->
                         <div>
                             <x-label for="item_name" :value="__('Item Name')" />
                             <x-input id="item_name" class="block mt-1 w-full" type="text" name="item_name" :value="old('item_name')" required autofocus placeholder="Item Name" />
+
+                            @error('item_name')
+                            <p class="font-semibold text-red-400 my-2">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <div class="flex flex-row justify-between">
                             <!-- Item Category -->
                             <div class="mt-3">
-                                    <x-label for="item_categories_id" :value="__('Category Name')" />
-                                    <select name="item_categories_id" id="item_categories_id" class="mt-1">
-                                        @foreach($categories as $category)
-                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                                <x-label for="item_categories_id" :value="__('Category Name')" />
+                                <select name="item_categories_id" id="item_categories_id" class="mt-1">
+                                    @foreach($categories as $category)
+                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('item_categories_id')
+                                <p class="font-semibold text-red-400 my-2">{{ $message }}</p>
+                                @enderror
+                            </div>
 
 
-                                <!-- Item Unit -->
-                                <div class="mt-3">
-                                    <x-label for="me_unit" :value="__('Item Unit')" />
-                                    <select name="me_unit" id="me_unit" class="mt-1">
-                                        <option value="M2">M2</option>                         
-                                        <option value="L">L</option>                         
-                                        <option value="piece">piece</option>                         
-                                    </select>
-                                </div>
+                            <!-- Item Unit -->
+                            <div class="mt-3">
+                                <x-label for="me_unit" :value="__('Item Unit')" />
+                                <select name="me_unit" id="me_unit" class="mt-1">
+                                    <option value="M2">M2</option>
+                                    <option value="L">L</option>
+                                    <option value="piece">piece</option>
+                                </select>
+                            </div>
 
-                                <!-- Item Unit 2 -->
-                                <div class="mt-3">
-                                    <x-label for="me_unit_sec" :value="__('Unit 2')" />
-                                    <select name="me_unit_sec" id="me_unit_sec" class="mt-1">
-                                        <option value="M3">M3</option>                         
-                                        <option value="L">L</option>                         
-                                        <option value="piece">piece</option>                         
-                                    </select>
-                                </div>                            
+                            <!-- Item Unit 2 -->
+                            <div class="mt-3">
+                                <x-label for="me_unit_sec" :value="__('Unit 2')" />
+                                <select name="me_unit_sec" id="me_unit_sec" class="mt-1">
+                                    <option value="M3">M3</option>
+                                    <option value="L">L</option>
+                                    <option value="piece">piece</option>
+                                </select>
+                            </div>
                         </div>
 
-                        <!-- Item name -->
+                        <!-- Item price -->
                         <div class="mt-1">
                             <x-label for="item_price" :value="__('Item Price')" />
-                            <x-input id="item_price" class="block mt-1 w-full" type="text" name="item_price" :value="old('name')" required autofocus placeholder="Item Price" />
+                            <x-input id="item_price" class="block mt-1 w-full" type="text" name="item_price" :value="old('item_price')" required autofocus placeholder="Item Price" />
+                            @error('item_price')
+                            <p class="font-semibold text-red-400 my-2">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <x-button class="mt-3">
@@ -67,7 +77,7 @@
     </div>
 
 
-@if($items->isNotEmpty())
+    @if($items->isNotEmpty())
     <div class="py-2">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -75,9 +85,7 @@
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
                             <tr>
-                                <th
-                                    scope="col"
-                                    class="
+                                <th scope="col" class="
                                         px-6
                                         py-3
                                         text-left text-xs
@@ -85,13 +93,10 @@
                                         text-gray-500
                                         uppercase
                                         tracking-wider
-                                    "
-                                >
+                                    ">
                                     #
                                 </th>
-                                <th
-                                    scope="col"
-                                    class="
+                                <th scope="col" class="
                                         px-6
                                         py-3
                                         text-left text-xs
@@ -99,13 +104,10 @@
                                         text-gray-500
                                         uppercase
                                         tracking-wider
-                                    "
-                                >
+                                    ">
                                     Item Name
                                 </th>
-                                <th
-                                    scope="col"
-                                    class="
+                                <th scope="col" class="
                                         px-6
                                         py-3
                                         text-left text-xs
@@ -113,13 +115,10 @@
                                         text-gray-500
                                         uppercase
                                         tracking-wider
-                                    "
-                                >
+                                    ">
                                     Item Unit
                                 </th>
-                                <th
-                                    scope="col"
-                                    class="
+                                <th scope="col" class="
                                         px-6
                                         py-3
                                         text-left text-xs
@@ -127,13 +126,10 @@
                                         text-gray-500
                                         uppercase
                                         tracking-wider
-                                    "
-                                >
+                                    ">
                                     Item Unit 2
                                 </th>
-                                <th
-                                    scope="col"
-                                    class="
+                                <th scope="col" class="
                                         px-6
                                         py-3
                                         text-left text-xs
@@ -141,13 +137,10 @@
                                         text-gray-500
                                         uppercase
                                         tracking-wider
-                                    "
-                                >
+                                    ">
                                     Item Price
                                 </th>
-                                <th
-                                    scope="col"
-                                    class="
+                                <th scope="col" class="
                                         px-6
                                         py-3
                                         text-left text-xs
@@ -155,13 +148,10 @@
                                         text-gray-500
                                         uppercase
                                         tracking-wider
-                                    "
-                                >
+                                    ">
                                     Category
                                 </th>
-                                <th
-                                    scope="col"
-                                    class="
+                                <th scope="col" class="
                                         px-6
                                         py-3
                                         text-left text-xs
@@ -169,21 +159,20 @@
                                         text-gray-500
                                         uppercase
                                         tracking-wider
-                                    "
-                                >
+                                    ">
                                     Created at
                                 </th>
                             </tr>
                         </thead>
-                    <tbody class="bg-white  divide-gray-200">
-                        @foreach($items as $item)
+                        <tbody class="bg-white  divide-gray-200">
+                            @foreach($items as $item)
                             <tr>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="text-sm text-gray-900">
                                         {{ $item->id }}
                                     </div>
                                 </td>
-                            
+
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     {{ $item->item_name }}
                                 </td>
@@ -195,7 +184,7 @@
                                     {{ $item->me_unit_sec }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                     @money($item->item_price, 'KWD', true) 
+                                    @money($item->item_price, 'KWD', true)
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     {{ $item->category->name }}
@@ -204,11 +193,11 @@
                                     {{ $item->created_at->diffForHumans() }}
                                 </td>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
-@endif
+        @endif
 </x-app-layout>
