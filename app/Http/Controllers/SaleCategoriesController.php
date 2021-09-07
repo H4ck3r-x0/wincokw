@@ -11,7 +11,10 @@ class SaleCategoriesController extends Controller
     {
         $categories = ItemCategory::all();
 
-        return view('sales.categories.index', ['categories' => $categories]);
+        return view(
+            'sales.categories.index',
+            ['categories' => $categories]
+        );
     }
 
     public function store(Request $request)
@@ -21,8 +24,7 @@ class SaleCategoriesController extends Controller
         ]);
 
         ItemCategory::create($request->all());
-        
+
         return redirect()->route('createItemCategory');
     }
-
 }

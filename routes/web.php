@@ -2,11 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientController;
-use App\Http\Controllers\ContractController;
-use App\Http\Controllers\ContractOrderController;
 use App\Http\Controllers\OrdersController;
-use App\Http\Controllers\SaleCategoriesController;
+use App\Http\Controllers\ContractController;
 use App\Http\Controllers\SalesItemController;
+use App\Http\Controllers\ContractOrderController;
+use App\Http\Controllers\SaleCategoriesController;
 
 
 Route::get('/', function () {
