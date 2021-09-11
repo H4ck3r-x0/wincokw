@@ -125,8 +125,12 @@
                                     </div>
                                 </td>
 
-                                <td class="px-6 py-4 whitespace-nowrap">
+                                <td class="px-2 py-2 whitespace-nowrap">
                                     <div class="flex flex-row">
+                                        <form action="{{ route('createOffer', $client->id) }}" method="GET" class="mr-2">
+                                            @csrf
+                                            <x-approve-button>New Offer</x-approve-button>
+                                        </form>
                                         <form action="{{ route('destroyClient', $client->id) }}" method="POST">
                                             @csrf
                                             <x-delete-button>Delete</x-delete-button>

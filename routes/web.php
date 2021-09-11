@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\OffersController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\SalesItemController;
@@ -150,6 +151,11 @@ Route::post('/dashboard/sales/destroy_sales_items/{item}', [SalesItemController:
     ->middleware(['auth'])
     ->name('destroySalesItem');
 
+
+
+Route::get('/dashboard/offers/create/{client}', [OffersController::class, 'create'])
+    ->middleware(['auth'])
+    ->name('createOffer');
 
 
 require __DIR__ . '/auth.php';
