@@ -162,6 +162,18 @@
                                     ">
                                     Created at
                                 </th>
+
+                                <th scope="col" class="
+                                        px-6
+                                        py-3
+                                        text-left text-xs
+                                        font-medium
+                                        text-gray-500
+                                        uppercase
+                                        tracking-wider
+                                    ">
+                                    Actions
+                                </th>
                             </tr>
                         </thead>
                         <tbody class="bg-white  divide-gray-200">
@@ -191,6 +203,16 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     {{ $item->created_at->diffForHumans() }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div>
+                                        <form action="{{ route('destroySalesItem', $item->id) }}" method="POST">
+                                            @csrf
+                                            <x-delete-button class="ml-3">
+                                                {{ __("Delete") }}
+                                            </x-delete-button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach

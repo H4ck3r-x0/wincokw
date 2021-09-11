@@ -146,5 +146,10 @@ Route::post('/dashboard/sales/save_sales_items', [SalesItemController::class, 's
     ->name('saveSalesItem');
 
 
+Route::post('/dashboard/sales/destroy_sales_items/{item}', [SalesItemController::class, 'destroy'])
+    ->middleware(['auth'])
+    ->name('destroySalesItem');
+
+
 
 require __DIR__ . '/auth.php';

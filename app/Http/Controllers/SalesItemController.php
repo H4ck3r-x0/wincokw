@@ -31,4 +31,10 @@ class SalesItemController extends Controller
 
         return redirect()->route('createItem');
     }
+
+    public function destroy($item)
+    {
+        SaleItem::destroy($item);
+        return redirect()->route('createItem');
+    }
 }
