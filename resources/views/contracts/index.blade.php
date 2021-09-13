@@ -6,12 +6,7 @@
             </h2>
             <form action="{{ route('allContracts') }}" method="GET">
                 @csrf
-                <input
-                    type="text"
-                    name="search_contracts"
-                    placeholder="Search .."
-                    required
-                />
+                <input type="text" name="search_contracts" placeholder="Search .." required />
             </form>
         </div>
     </x-slot>
@@ -26,9 +21,7 @@
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
                             <tr>
-                                <th
-                                    scope="col"
-                                    class="
+                                <th scope="col" class="
                                         px-6
                                         py-3
                                         text-left text-xs
@@ -36,13 +29,10 @@
                                         text-gray-500
                                         uppercase
                                         tracking-wider
-                                    "
-                                >
+                                    ">
                                     Client Name
                                 </th>
-                                <th
-                                scope="col"
-                                class="
+                                <th scope="col" class="
                                     px-6
                                     py-3
                                     text-left text-xs
@@ -50,13 +40,10 @@
                                     text-gray-500
                                     uppercase
                                     tracking-wider
-                                "
-                            >
-                                Client Phone Number
-                            </th>
-                                <th
-                                    scope="col"
-                                    class="
+                                ">
+                                    Client Phone Number
+                                </th>
+                                <th scope="col" class="
                                         px-6
                                         py-3
                                         text-left text-xs
@@ -64,13 +51,10 @@
                                         text-gray-500
                                         uppercase
                                         tracking-wider
-                                    "
-                                >
+                                    ">
                                     Contract Number
                                 </th>
-                                <th
-                                    scope="col"
-                                    class="
+                                <th scope="col" class="
                                         px-6
                                         py-3
                                         text-left text-xs
@@ -78,8 +62,7 @@
                                         text-gray-500
                                         uppercase
                                         tracking-wider
-                                    "
-                                >actions</th>
+                                    ">actions</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
@@ -105,22 +88,16 @@
                                     </div>
                                 </td>
 
-                             
+
                                 <td>
                                     <div class="flex flex-row">
-                                        <form
-                                            action="{{ route('deleteContract', $contract->id) }}"
-                                            method="POST"
-                                        >
+                                        <form action="{{ route('deleteContract', $contract->id) }}" method="POST">
                                             @csrf
                                             <x-delete-button class="ml-3">
                                                 {{ __("Delete") }}
                                             </x-delete-button>
                                         </form>
-                                        <form
-                                            action="{{ route('contractOrders', $contract->id) }}"
-                                            method="GET"
-                                        >
+                                        <form action="{{ route('contractOrders', $contract->id) }}" method="GET">
                                             @csrf
                                             <x-approve-button class="ml-3">
                                                 {{ __("Orders") }}
@@ -132,11 +109,7 @@
                             @empty
                             <div class="flex flex-col justify-center items-center">
                                 <h1 class="text-center text-lg">No Contracts found</h1>
-                                <a
-                                    href="{{ route('createContract') }}"
-                                    class="text-md text-blue-600"
-                                    >Create</a
-                                >
+                                <a href="{{ route('createContract') }}" class="text-md text-blue-600">Create</a>
                             </div>
                             @endforelse
                         </tbody>
@@ -146,5 +119,3 @@
         </div>
     </div>
 </x-app-layout>
-
-

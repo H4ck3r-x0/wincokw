@@ -153,9 +153,15 @@ Route::post('/dashboard/sales/destroy_sales_items/{item}', [SalesItemController:
 
 
 
-Route::get('/dashboard/offers', [OffersController::class, 'index'])
+// Route::get('/dashboard/offers', [OffersController::class, 'index'])
+
+Route::get('/dashboard/offers', \App\Http\Livewire\Offers\OffersIndex::class)
     ->middleware(['auth'])
     ->name('clientOffers');
+
+Route::get('/dashboard/offers/create', \App\Http\Livewire\Offers\CreateOffer::class)
+    ->middleware(['auth'])
+    ->name('createOffer');
 
 
 require __DIR__ . '/auth.php';
