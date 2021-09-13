@@ -153,9 +153,9 @@ Route::post('/dashboard/sales/destroy_sales_items/{item}', [SalesItemController:
 
 
 
-Route::get('/dashboard/offers/create/{client}', [OffersController::class, 'create'])
+Route::get('/dashboard/offers', [OffersController::class, 'index'])
     ->middleware(['auth'])
-    ->name('createOffer');
+    ->name('clientOffers');
 
 
 require __DIR__ . '/auth.php';

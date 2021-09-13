@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 
 class OffersController extends Controller
 {
-    public function create(Client $client)
+    public function index()
     {
-        return $client;
+        return view('invoices.offers.index');
     }
 }

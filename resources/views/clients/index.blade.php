@@ -6,7 +6,7 @@
             </h2>
             <form action="{{ route('allClients') }}" method="GET">
                 @csrf
-                <input type="text" name="search_clients" placeholder="Search">
+                <input type="text" name="search_clients" placeholder="Search" required>
             </form>
         </div>
     </x-slot>
