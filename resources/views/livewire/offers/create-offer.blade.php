@@ -49,12 +49,10 @@
         </div>
     </div>
 
-
-
-    <div x-data="handler()">
-
+    <div>
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <x-button type="button" @click="addNewField()">+ Add Product</x-button>
+            <x-button type="button" wire:click.prevent="addProduct">+ Add Product</x-button>
+            <x-button type="button" wire:click.prevent="showProducts">Show Products</x-button>
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-00">
                     <table class="min-w-full divide-y divide-gray-200">
@@ -67,7 +65,16 @@
                                         text-gray-500
                                         uppercase
                                         tracking-wider
-                                    ">Prodect Name</th>
+                                    ">Item Name</th>
+                            <th scope="col" class="
+                                        px-6
+                                        py-3
+                                        text-left text-xs
+                                        font-medium
+                                        text-gray-500
+                                        uppercase
+                                        tracking-wider
+                                    ">Unit</th>
                             <th scope="col" class="
                                         px-6
                                         py-3
@@ -85,47 +92,79 @@
                                         text-gray-500
                                         uppercase
                                         tracking-wider
+                                    ">Item Price</th>
+                            <th scope="col" class="
+                                        px-6
+                                        py-3
+                                        text-left text-xs
+                                        font-medium
+                                        text-gray-500
+                                        uppercase
+                                        tracking-wider
                                     ">actions</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                            <template x-for="(field, index) in fields" :key="index">
-                                <tr>
-                                    <td class="whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="ml-4">
-                                                <!-- Products -->
-                                                <div class="">
-                                                    <select name="product" wire:model="selectedProducts">
-                                                        @foreach($saleItems as $product)
-                                                        <option value="{{ $product->id }}" @click="$wire.addProduct({{ $product}})">
-                                                            {{ $product->item_name }}
-                                                        </option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
+                            @foreach ($offerProducts as $index => $offerProduct)
+                            <tr>
+                                <td class="whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="ml-4">
+                                            <!-- Products -->
+                                            <div class="">
+                                                <select name="offerProducts[{{$index}}][id]" wire:model="offerProducts.{{$index}}.id">
+                                                    <option value="">Choose an item</option>
+                                                    @foreach($saleItems as $product)
+                                                    <option value="{{ $product->id }}" wire:click="productChanged({{ $index }})">
+                                                        {{ $product->item_name }}
+                                                    </option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
-                                    </td>
-                                    <td class="whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="ml-4">
-                                                <!-- Products QTY -->
-                                                <div class="mr-4">
-                                                    <input type="number" :value="field.product_quantity" size="5">
-                                                </div>
+                                    </div>
+                                </td>
+                                <td class="whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="ml-4">
+                                            <!-- Products -->
+                                            <div class="">
+                                                <select name="offerProducts[{{$index}}][me_unit]" wire:model="offerProducts.{{$index}}.me_unit">
+                                                    @foreach($saleItemUnits as $unit)
+                                                    <option value="{{ $unit }}">
+                                                        {{ $unit }}
+                                                    </option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
-                                    </td>
-                                    <td class="whitespace-nowrap">
-                                        <div class="flex items-center">
-                                            <div class="ml-4">
-                                                <x-button type="button" @click="removeField(index)">X</x-button>
+                                    </div>
+                                </td>
+                                <td class="whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="ml-4">
+                                            <!-- Products QTY -->
+                                            <div class="mr-4">
+                                                <input name="offerProducts[{{$index}}][quantity]" wire:model="offerProducts.{{$index}}.quantity" type="number" size="5">
                                             </div>
                                         </div>
-                                    </td>
-                                </tr>
-                            </template>
+                                    </div>
+                                </td>
+                                <td class="whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="ml-4">
+                                            <!-- Item Price -->
+                                            <div class="mr-4">
+                                                <input type="text" name="offerProducts[{{$index}}][quantity]" value="{{ $offerProducts[$index]['item_price'] }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="whitespace-nowrap">
+                                    <x-button wire:click.prevent="removeProduct({{$index}})">X</x-button>
+                                </td>
+                            </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -133,21 +172,5 @@
         </div>
     </div>
 
-    <script>
-        function handler() {
-            return {
-                fields: [],
-                addNewField() {
-                    this.fields.push({
-                        product_name: '',
-                        product_quantity: 1,
-                        product_price: 1
-                    });
-                },
-                removeField(index) {
-                    this.fields.splice(index, 1);
-                }
-            }
-        }
-    </script>
+
 </div>
