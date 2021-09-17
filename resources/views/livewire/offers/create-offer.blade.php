@@ -110,9 +110,9 @@
                                 <td class="whitespace-nowrap">
                                     <div class="flex items-center">
                                         <div class="ml-4">
-                                            <!-- Products -->
+                                            <!-- Products Name -->
                                             <div class="">
-                                                <select name="offerProducts[{{$index}}][id]" wire:model="offerProducts.{{$index}}.id">
+                                                <select name="offerProducts[{{$index}}][item_name]" wire:model="offerProducts.{{$index}}.item_id">
                                                     <option value="">Choose an item</option>
                                                     @foreach($saleItems as $product)
                                                     <option value="{{ $product->id }}" wire:click="productChanged({{ $index }})">

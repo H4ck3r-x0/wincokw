@@ -46,15 +46,14 @@ class CreateOffer extends Component
         }
     }
 
+    public function productChanged($product_index)
+    {
+        dd($product_index);
+    }
+
     public function showProducts()
     {
         dd($this->offerProducts);
-    }
-
-    public function productChanged($product_index)
-    {
-        $product = $this->offerProducts[$product_index];
-        dd($product_index);
     }
 
     public function removeProduct($index)
