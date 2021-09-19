@@ -112,10 +112,10 @@
                                         <div class="ml-4">
                                             <!-- Products Name -->
                                             <div class="">
-                                                <select name="offerProducts[{{$index}}][item_name]" wire:model="offerProducts.{{$index}}.item_id">
+                                                <select name="offerProducts[{{$index}}][item_name]" wire:model="offerProducts.{{$index}}.item_name">
                                                     <option value="">Choose an item</option>
                                                     @foreach($saleItems as $product)
-                                                    <option value="{{ $product->id }}" wire:click="productChanged({{ $index }})">
+                                                    <option value="{{ $product->item_name }}">
                                                         {{ $product->item_name }}
                                                     </option>
                                                     @endforeach
@@ -129,23 +129,21 @@
                                         <div class="ml-4">
                                             <!-- Products -->
                                             <div class="">
-                                                <select name="offerProducts[{{$index}}][me_unit]" wire:model="offerProducts.{{$index}}.me_unit">
+                                                <select name="offerProducts[{{$index}}][unit_id]" wire:model="offerProducts.{{$index}}.unit_id">
                                                     @foreach($saleItemUnits as $unit)
-                                                    <option value="{{ $unit }}">
-                                                        {{ $unit }}
-                                                    </option>
+                                                    <option value="{{ $unit->id }}">{{ $unit->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
                                 </td>
-                                <td class="whitespace-nowrap">
+                                <td class=" whitespace-nowrap">
                                     <div class="flex items-center">
                                         <div class="ml-4">
                                             <!-- Products QTY -->
                                             <div class="mr-4">
-                                                <input name="offerProducts[{{$index}}][quantity]" wire:model="offerProducts.{{$index}}.quantity" type="number" size="5">
+                                                <input name="offerProducts[{{$index}}][quantity]" wire:model="offerProducts.{{$index}}.quantity" value="offerProducts[{{$index}}][quantity]" type="number" size="5">
                                             </div>
                                         </div>
                                     </div>
@@ -155,7 +153,7 @@
                                         <div class="ml-4">
                                             <!-- Item Price -->
                                             <div class="mr-4">
-                                                <input type="text" name="offerProducts[{{$index}}][quantity]" value="{{ $offerProducts[$index]['item_price'] }}">
+                                                <input type="text" name="offerProducts[{{$index}}][item_price]" value="{{ $offerProducts[$index]['item_price'] }}" wire:model="offerProducts.{{$index}}.item_price">
                                             </div>
                                         </div>
                                     </div>

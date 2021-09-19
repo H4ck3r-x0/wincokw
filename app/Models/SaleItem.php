@@ -14,4 +14,9 @@ class SaleItem extends Model
     {
         return $this->belongsTo(ItemCategory::class, 'item_categories_id');
     }
+
+    public function units()
+    {
+        return $this->belongsTo(Unit::class, 'unit_id');
+    }
 }

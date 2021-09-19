@@ -8,6 +8,8 @@ use App\Http\Controllers\ContractController;
 use App\Http\Controllers\SalesItemController;
 use App\Http\Controllers\ContractOrderController;
 use App\Http\Controllers\SaleCategoriesController;
+use App\Http\Controllers\UnitController;
+
 
 
 Route::get('/', function () {
@@ -163,5 +165,13 @@ Route::get('/dashboard/offers/create', \App\Http\Livewire\Offers\CreateOffer::cl
     ->middleware(['auth'])
     ->name('createOffer');
 
+
+Route::get('/dashboard/units/create_item_units', [UnitController::class, 'index'])
+    ->middleware(['auth'])
+    ->name('createItemUnits');
+
+Route::post('/dashboard/units', [UnitController::class, 'store'])
+    ->middleware(['auth'])
+    ->name('saveItemUnits');
 
 require __DIR__ . '/auth.php';

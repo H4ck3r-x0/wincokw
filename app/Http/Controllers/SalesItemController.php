@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\SaleItem;
+use App\Models\Unit;
 use App\Models\ItemCategory;
 use Illuminate\Http\Request;
 
@@ -12,9 +13,10 @@ class SalesItemController extends Controller
     public function create()
     {
         $categories = ItemCategory::all();
-        $items = SaleItem::with('category')->get();
-
-        return view('sales.items.create', ['categories' => $categories, 'items' => $items]);
+        $units = Unit::all();
+        $items = SaleItem::with(['category', 'units'])->get();
+        // dd($items);
+        return view('sales.items.create', ['categories' => $categories, 'items' => $items, 'units' => $units]);
     }
 
     public function store(Request $request)
@@ -22,8 +24,7 @@ class SalesItemController extends Controller
         $request->validate([
             'item_name' => 'required',
             'item_categories_id' => 'required',
-            'me_unit' => 'required',
-            'me_unit_sec' => 'required',
+            'unit_id' => 'required',
             'item_price' => 'required',
         ]);
 

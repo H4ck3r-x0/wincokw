@@ -2,10 +2,13 @@
 
 namespace App\Http\Livewire\Offers;
 
+use Illuminate\Support\Arr;
 use Carbon\Carbon;
 use Livewire\Component;
 use App\Models\SaleItem;
 use App\Models\Client;
+use App\Models\Unit;
+
 
 class CreateOffer extends Component
 {
@@ -14,32 +17,50 @@ class CreateOffer extends Component
     public $saleItems = [];
     public $saleItemUnits = [];
     public $offerExperationDate = null;
-    public $addMoreProducts = false;
+
 
     public function mount()
     {
         $this->clients = Client::all();
         $this->saleItems = SaleItem::all();
-        $this->saleItemUnits = ['M2', 'L', 'peice', 'M3'];
+        $this->saleItemUnits = Unit::all();;
         $this->offerExperationDate = Carbon::now()->addDays(15)->format('Y-m-d');
+    }
+
+
+    public function updatedOfferProducts($value, $key)
+    {
+        $index = substr($key, 0, 1);
+        if ($key === substr($key, 0, 1) . ".item_price") {
+            $this->offerProducts[$index]['item_price'] = $value;
+        } else if ($key === substr($key, 0, 1) . ".quantity") {
+            $this->offerProducts[$index]['quantity'] = $value;
+        } else if ($key === substr($key, 0, 1) . ".unit_id") {
+            $this->offerProducts[$index]['unit_id'] = $value;
+        } else {
+            $product = $this->saleItems->where('item_name', $value)->first();
+            $key = substr($key, 0, 1);
+            $this->offerProducts[$key]['unit_id'] = $product->unit_id;
+            $this->offerProducts[$key]['item_price'] = $product->item_price;
+        }
     }
 
     public function addProduct()
     {
-        if ($this->offerProducts > 0) {
+        if (!empty($this->offerProducts)) {
             $this->offerProducts[] = [
-                'item_id' => '',
+                'id' => '',
                 'item_name' => '',
-                'me_unit' => '',
+                'unit_id' => '',
                 'item_price' => '',
                 'quantity' => 1
             ];
         } else {
             $product = $this->saleItems->first();
             $this->offerProducts[] = [
-                'item_id' => $product->id,
+                'id' => $product->id,
                 'item_name' => $product->item_name,
-                'me_unit' => $product->me_unit,
+                'unit_id' => $product->unit_id,
                 'item_price' => $product->item_price,
                 'quantity' => 1
             ];
@@ -48,7 +69,6 @@ class CreateOffer extends Component
 
     public function productChanged($product_index)
     {
-        dd($product_index);
     }
 
     public function showProducts()

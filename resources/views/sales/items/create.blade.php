@@ -39,23 +39,23 @@
 
                             <!-- Item Unit -->
                             <div class="mt-3">
-                                <x-label for="me_unit" :value="__('Item Unit')" />
-                                <select name="me_unit" id="me_unit" class="mt-1">
-                                    <option value="M2">M2</option>
-                                    <option value="L">L</option>
-                                    <option value="piece">piece</option>
+                                <x-label for="unit_id" :value="__('Item Unit')" />
+                                <select name="unit_id" id="unit_id" class="mt-1">
+                                    @foreach($units as $unit)
+                                    <option value="{{ $unit->id }}">{{ $unit->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
 
                             <!-- Item Unit 2 -->
-                            <div class="mt-3">
+                            <!-- <div class="mt-3">
                                 <x-label for="me_unit_sec" :value="__('Unit 2')" />
                                 <select name="me_unit_sec" id="me_unit_sec" class="mt-1">
-                                    <option value="M3">M3</option>
-                                    <option value="L">L</option>
-                                    <option value="piece">piece</option>
+                                    @foreach($units as $unit)
+                                    <option value="{{ $unit->id }}">{{ $unit->name }}</option>
+                                    @endforeach
                                 </select>
-                            </div>
+                            </div> -->
                         </div>
 
                         <!-- Item price -->
@@ -118,7 +118,7 @@
                                     ">
                                     Item Unit
                                 </th>
-                                <th scope="col" class="
+                                <!-- <th scope="col" class="
                                         px-6
                                         py-3
                                         text-left text-xs
@@ -128,7 +128,7 @@
                                         tracking-wider
                                     ">
                                     Item Unit 2
-                                </th>
+                                </th> -->
                                 <th scope="col" class="
                                         px-6
                                         py-3
@@ -190,11 +190,11 @@
                                 </td>
 
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    {{ $item->me_unit }}
+                                    {{ $item->units->name }}
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
+                                <!-- <td class="px-6 py-4 whitespace-nowrap">
                                     {{ $item->me_unit_sec }}
-                                </td>
+                                </td> -->
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     @money($item->item_price, 'KWD', true)
                                 </td>
