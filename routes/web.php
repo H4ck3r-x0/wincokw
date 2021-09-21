@@ -174,4 +174,8 @@ Route::post('/dashboard/units', [UnitController::class, 'store'])
     ->middleware(['auth'])
     ->name('saveItemUnits');
 
+Route::post('/dashboard/sales/destroy_item_unit/{unit}', [UnitController::class, 'destroy'])
+    ->middleware(['auth'])
+    ->name('destroyItemUnit');
+
 require __DIR__ . '/auth.php';

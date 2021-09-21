@@ -12,36 +12,54 @@ use App\Models\Unit;
 
 class CreateOffer extends Component
 {
+    protected $listeners = ['getTotalPrice' => 'getTotalPrice'];
     public $offerProducts = [];
     public $clients = [];
     public $saleItems = [];
     public $saleItemUnits = [];
     public $offerExperationDate = null;
-
+    public $totalPrice = 0;
 
     public function mount()
     {
         $this->clients = Client::all();
         $this->saleItems = SaleItem::all();
-        $this->saleItemUnits = Unit::all();;
+        $this->saleItemUnits = Unit::all();
         $this->offerExperationDate = Carbon::now()->addDays(15)->format('Y-m-d');
     }
 
+    public function getTotalPrice()
+    {
+        $this->totalPrice = array_reduce(
+            $this->offerProducts,
+            function ($total, $item) {
+                $total += (int)$item['item_price'] * (int)$item['quantity'];
+
+                return $total;
+            },
+            0
+        );
+    }
 
     public function updatedOfferProducts($value, $key)
     {
         $index = substr($key, 0, 1);
-        if ($key === substr($key, 0, 1) . ".item_price") {
+        if ($key === $index . ".item_price") {
             $this->offerProducts[$index]['item_price'] = $value;
-        } else if ($key === substr($key, 0, 1) . ".quantity") {
+            $this->emit('getTotalPrice');
+        } else if ($key === $index . ".quantity") {
             $this->offerProducts[$index]['quantity'] = $value;
-        } else if ($key === substr($key, 0, 1) . ".unit_id") {
+            $this->emit('getTotalPrice');
+        } else if ($key === $index . ".unit_id") {
             $this->offerProducts[$index]['unit_id'] = $value;
         } else {
             $product = $this->saleItems->where('item_name', $value)->first();
-            $key = substr($key, 0, 1);
-            $this->offerProducts[$key]['unit_id'] = $product->unit_id;
-            $this->offerProducts[$key]['item_price'] = $product->item_price;
+            $this->offerProducts[$index]['id'] = $product->id;
+            $this->offerProducts[$index]['unit_id'] = $product->unit_id;
+            $this->offerProducts[$index]['item_price'] = $product->item_price;
+            if ($this->offerProducts[$index]['item_price']) {
+                $this->emit('getTotalPrice');
+            }
         }
     }
 
@@ -64,11 +82,8 @@ class CreateOffer extends Component
                 'item_price' => $product->item_price,
                 'quantity' => 1
             ];
+            $this->emit('getTotalPrice');
         }
-    }
-
-    public function productChanged($product_index)
-    {
     }
 
     public function showProducts()
@@ -80,6 +95,7 @@ class CreateOffer extends Component
     {
         unset($this->offerProducts[$index]);
         $this->offerProducts = array_values($this->offerProducts);
+        $this->emit('getTotalPrice');
     }
 
     public function render()

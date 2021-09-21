@@ -9,12 +9,21 @@ class UnitController extends Controller
 {
     public function index()
     {
-        return view('sales.units.index');
+        $units = Unit::all();
+        return view('sales.units.index', ['units' => $units]);
     }
 
     public function store(Request $request)
     {
         Unit::create($request->all());
+
+        return redirect()->route('createItemUnits');
+    }
+
+
+    public function destroy(Unit $unit)
+    {
+        Unit::destroy($unit->id);
 
         return redirect()->route('createItemUnits');
     }

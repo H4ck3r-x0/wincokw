@@ -115,7 +115,7 @@
                                                 <select name="offerProducts[{{$index}}][item_name]" wire:model="offerProducts.{{$index}}.item_name">
                                                     <option value="">Choose an item</option>
                                                     @foreach($saleItems as $product)
-                                                    <option value="{{ $product->item_name }}">
+                                                    <option value="{{ $product->item_name}}">
                                                         {{ $product->item_name }}
                                                     </option>
                                                     @endforeach
@@ -127,7 +127,7 @@
                                 <td class="whitespace-nowrap">
                                     <div class="flex items-center">
                                         <div class="ml-4">
-                                            <!-- Products -->
+                                            <!-- Product unit -->
                                             <div class="">
                                                 <select name="offerProducts[{{$index}}][unit_id]" wire:model="offerProducts.{{$index}}.unit_id">
                                                     @foreach($saleItemUnits as $unit)
@@ -138,12 +138,13 @@
                                         </div>
                                     </div>
                                 </td>
+
                                 <td class=" whitespace-nowrap">
                                     <div class="flex items-center">
                                         <div class="ml-4">
                                             <!-- Products QTY -->
                                             <div class="mr-4">
-                                                <input name="offerProducts[{{$index}}][quantity]" wire:model="offerProducts.{{$index}}.quantity" value="offerProducts[{{$index}}][quantity]" type="number" size="5">
+                                                <input name="offerProducts[{{$index}}][quantity]" wire:model="offerProducts.{{$index}}.quantity" value="offerProducts[{{$index}}][quantity]" type="number" min="1" size="5">
                                             </div>
                                         </div>
                                     </div>
@@ -164,6 +165,14 @@
                             </tr>
                             @endforeach
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <td class="whitespace-nowrap">
+                                    Total Price
+                                </td>
+                                <td wire:model="totalPrice">{{ $totalPrice }}</td>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>
