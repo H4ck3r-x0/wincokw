@@ -2,7 +2,7 @@
 
 namespace App\Http\Livewire\Offers;
 
-use Illuminate\Support\Arr;
+
 use Carbon\Carbon;
 use Livewire\Component;
 use App\Models\SaleItem;
@@ -33,7 +33,14 @@ class CreateOffer extends Component
         $this->totalPrice = array_reduce(
             $this->offerProducts,
             function ($total, $item) {
-                $total += (int)$item['item_price'] * (int)$item['quantity'];
+                $itemPrice = (int)$item['item_price'];
+                $discount = (int)$item['disc'];
+                if ($discount) {
+                    $itemPrice = $itemPrice - $discount;
+                    $total += $itemPrice * (int)$item['quantity'];
+                } else {
+                    $total += (int)$item['item_price'] * (int)$item['quantity'];
+                }
 
                 return $total;
             },
@@ -50,13 +57,23 @@ class CreateOffer extends Component
         } else if ($key === $index . ".quantity") {
             $this->offerProducts[$index]['quantity'] = $value;
             $this->emit('getTotalPrice');
+        } else if ($key === $index . ".disc") {
+            $this->offerProducts[$index]['disc'] = $value;
+            $this->emit('getTotalPrice');
+        } else if ($key === $index . ".quantity2") {
+            $this->offerProducts[$index]['quantity2'] = $value;
+            $this->emit('getTotalPrice');
         } else if ($key === $index . ".unit_id") {
             $this->offerProducts[$index]['unit_id'] = $value;
+        } else if ($key === $index . ".unit2_id") {
+            $this->offerProducts[$index]['unit2_id'] = $value;
         } else {
             $product = $this->saleItems->where('item_name', $value)->first();
             $this->offerProducts[$index]['id'] = $product->id;
             $this->offerProducts[$index]['unit_id'] = $product->unit_id;
+            $this->offerProducts[$index]['unit2_id'] = $product->unit_id;
             $this->offerProducts[$index]['item_price'] = $product->item_price;
+            $this->offerProducts[$index]['disc'] = 0;
             if ($this->offerProducts[$index]['item_price']) {
                 $this->emit('getTotalPrice');
             }
@@ -70,8 +87,11 @@ class CreateOffer extends Component
                 'id' => '',
                 'item_name' => '',
                 'unit_id' => '',
+                'unit2_id' => '',
                 'item_price' => '',
-                'quantity' => 1
+                'disc' => '',
+                'quantity' => 1,
+                'quantity2' => 0
             ];
         } else {
             $product = $this->saleItems->first();
@@ -79,8 +99,11 @@ class CreateOffer extends Component
                 'id' => $product->id,
                 'item_name' => $product->item_name,
                 'unit_id' => $product->unit_id,
+                'unit2_id' => $product->unit_id,
                 'item_price' => $product->item_price,
-                'quantity' => 1
+                'disc' => 0,
+                'quantity' => 1,
+                'quantity2' => 0
             ];
             $this->emit('getTotalPrice');
         }

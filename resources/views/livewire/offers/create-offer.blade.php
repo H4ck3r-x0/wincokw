@@ -44,6 +44,8 @@
                         <x-input id="project_address" class="block mt-1 w-full" type="text" name="project_address" :value="old('project_address')" placeholder="Project Address" required />
                     </div>
 
+
+
                 </div>
             </div>
         </div>
@@ -92,7 +94,35 @@
                                         text-gray-500
                                         uppercase
                                         tracking-wider
+                                    ">Unit 2</th>
+
+                            <th scope="col" class="
+                                        px-6
+                                        py-3
+                                        text-left text-xs
+                                        font-medium
+                                        text-gray-500
+                                        uppercase
+                                        tracking-wider
+                                    ">Quantity</th>
+                            <th scope="col" class="
+                                        px-6
+                                        py-3
+                                        text-left text-xs
+                                        font-medium
+                                        text-gray-500
+                                        uppercase
+                                        tracking-wider
                                     ">Item Price</th>
+                            <th scope="col" class="
+                                        px-6
+                                        py-3
+                                        text-left text-xs
+                                        font-medium
+                                        text-gray-500
+                                        uppercase
+                                        tracking-wider
+                                    ">Disc</th>
                             <th scope="col" class="
                                         px-6
                                         py-3
@@ -111,7 +141,7 @@
                                     <div class="flex items-center">
                                         <div class="ml-4">
                                             <!-- Products Name -->
-                                            <div class="">
+                                            <div>
                                                 <select name="offerProducts[{{$index}}][item_name]" wire:model="offerProducts.{{$index}}.item_name">
                                                     <option value="">Choose an item</option>
                                                     @foreach($saleItems as $product)
@@ -152,9 +182,43 @@
                                 <td class="whitespace-nowrap">
                                     <div class="flex items-center">
                                         <div class="ml-4">
+                                            <!-- Product unit -->
+                                            <div class="">
+                                                <select name="offerProducts[{{$index}}][unit2_id]" wire:model="offerProducts.{{$index}}.unit2_id">
+                                                    @foreach($saleItemUnits as $unit)
+                                                    <option value="{{ $unit->id }}">{{ $unit->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class=" whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="ml-4">
+                                            <!-- Products QTY -->
+                                            <div class="mr-4">
+                                                <input name="offerProducts[{{$index}}][quantity2]" wire:model="offerProducts.{{$index}}.quantity2" value="offerProducts[{{$index}}][quantity2]" type="number" min="0" size="5">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="ml-4">
                                             <!-- Item Price -->
                                             <div class="mr-4">
-                                                <input type="text" name="offerProducts[{{$index}}][item_price]" value="{{ $offerProducts[$index]['item_price'] }}" wire:model="offerProducts.{{$index}}.item_price">
+                                                <input type="text" size="2" name="offerProducts[{{$index}}][item_price]" value="{{ $offerProducts[$index]['item_price'] }}" wire:model="offerProducts.{{$index}}.item_price">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="flex items-center">
+                                        <div class="ml-4">
+                                            <!-- Item Price -->
+                                            <div class="mr-4">
+                                                <input type="text" size="2" name="offerProducts[{{$index}}][disc]" value="{{ $offerProducts[$index]['disc'] }}" wire:model="offerProducts.{{$index}}.disc">
                                             </div>
                                         </div>
                                     </div>
@@ -178,6 +242,5 @@
             </div>
         </div>
     </div>
-
 
 </div>
