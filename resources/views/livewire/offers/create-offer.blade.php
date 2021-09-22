@@ -25,27 +25,32 @@
                             </select>
                         </div>
 
+                        <!-- Offer Created at -->
+                        <div class="mr-3">
+                            <x-label for="OfferCreatedAt" :value="__('Offer Created At')" />
+                            <input type="date" name="OfferCreatedAt" id="OfferCreatedAt" value="{{ $OfferCreatedAt }}" wire:model="OfferCreatedAt" class="{{ $errors->has('OfferCreatedAt') ? 'border border-red-500' : '' }}">
+                        </div>
+
                         <!-- Offer Expration Date -->
                         <div>
                             <x-label for="offer_exp" :value="__('Offer Expires')" />
-                            <input type="date" name="offer_exp" id="offer_exp" value="{{ $offerExperationDate }}">
+                            <input type="date" name="offer_exp" id="offer_exp" value="{{ $offerExperationDate }}" class="{{ $errors->has('offerExperationDate') ? 'border border-red-500' : '' }}">
                         </div>
                     </div>
 
                     <!-- Project Name -->
                     <div class="mt-3">
                         <x-label for="project_name" :value="__('Project Name')" />
-                        <x-input id="project_name" class="block mt-1 w-full" type="text" name="project_name" :value="old('project_name')" placeholder="Project Name" required />
+                        <x-input id="project_name" class="block mt-1 w-full" type="text" name="project_name" wire:model="project_name" :value="old('project_name')" placeholder="Project Name" required />
+                        @error('project_name') <span class="text-xs font-semibold text-red-400">{{ $message }}</span> @enderror
                     </div>
 
                     <!-- Project Adress -->
                     <div class="mt-3">
                         <x-label for="project_address" :value="__('Project Address')" />
-                        <x-input id="project_address" class="block mt-1 w-full" type="text" name="project_address" :value="old('project_address')" placeholder="Project Address" required />
+                        <x-input id="project_address" class="block mt-1 w-full" type="text" name="project_address" wire:model="project_address" :value="old('project_address')" placeholder="Project Address" required />
+                        @error('project_address') <span class="text-xs font-semibold text-red-400">{{ $message }}</span> @enderror
                     </div>
-
-
-
                 </div>
             </div>
         </div>
@@ -229,15 +234,25 @@
                             </tr>
                             @endforeach
                         </tbody>
-                        <tfoot>
+                        <!-- <tfoot>
                             <tr>
                                 <td class="whitespace-nowrap">
                                     Total Price
                                 </td>
                                 <td wire:model="totalPrice">{{ $totalPrice }}</td>
                             </tr>
-                        </tfoot>
+                        </tfoot> -->
                     </table>
+
+                    <!-- Calculation -->
+                    <div class="mt-6">
+                        <h1 class="font-semibold text-xl text-gray-500 ">Amount</h1>
+                        <div class="flex items-center ">
+                            <label for="total" class="font-semibild text-gray-600 text-lg mr-2">Total:</label>
+                            <h1 id="total" wire:model="totalPrice">{{ $totalPrice }}</h1>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>

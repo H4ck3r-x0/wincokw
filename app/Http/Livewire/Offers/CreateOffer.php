@@ -17,14 +17,33 @@ class CreateOffer extends Component
     public $clients = [];
     public $saleItems = [];
     public $saleItemUnits = [];
+    public $OfferCreatedAt = null;
     public $offerExperationDate = null;
     public $totalPrice = 0;
+    public $client_id = '';
+    public $project_name = '';
+    public $project_address = '';
+
+    protected $rules = [
+        'client_id' => 'required',
+        'project_name' => 'required|min:6',
+        'project_address' => 'required|min:6',
+        'OfferCreatedAt' => 'required',
+        'offerExperationDate' => 'required',
+    ];
+
+    public function updated($propertyName)
+    {
+        $this->validateOnly($propertyName);
+    }
+
 
     public function mount()
     {
         $this->clients = Client::all();
         $this->saleItems = SaleItem::all();
         $this->saleItemUnits = Unit::all();
+        $this->OfferCreatedAt = Carbon::now()->format('Y-m-d');
         $this->offerExperationDate = Carbon::now()->addDays(15)->format('Y-m-d');
     }
 
@@ -35,7 +54,7 @@ class CreateOffer extends Component
             function ($total, $item) {
                 $itemPrice = (int)$item['item_price'];
                 $discount = (int)$item['disc'];
-                if ($discount) {
+                if ($discount && $discount > 0) {
                     $itemPrice = $itemPrice - $discount;
                     $total += $itemPrice * (int)$item['quantity'];
                 } else {
