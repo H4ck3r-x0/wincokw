@@ -99,6 +99,11 @@ class CreateOffer extends Component
         }
     }
 
+    public function saveProduct()
+    {
+        dd('Saved!');
+    }
+
     public function addProduct()
     {
         if (!empty($this->offerProducts)) {

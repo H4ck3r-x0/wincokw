@@ -58,8 +58,14 @@
 
     <div>
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <x-button type="button" wire:click.prevent="addProduct">+ Add Product</x-button>
-            <x-button type="button" wire:click.prevent="showProducts">Show Products</x-button>
+            <div class="flex mb-2">
+                <div class="flex flex-1">
+                    <x-button type="button" wire:click.prevent="addProduct" class="mr-3">+ Add Product</x-button>
+                    <x-approve-button type="button" wire:click.prevent="saveProduct" class="mr-3">Print</x-approve-button>
+                    <x-button type="button" wire:click.prevent="showProducts">Show Products</x-button>
+                </div>
+                <a href="{{ route('createItem') }}" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">Create Item</a>
+            </div>
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-00">
                     <table class="min-w-full divide-y divide-gray-200">
@@ -234,25 +240,18 @@
                             </tr>
                             @endforeach
                         </tbody>
-                        <!-- <tfoot>
-                            <tr>
-                                <td class="whitespace-nowrap">
-                                    Total Price
-                                </td>
-                                <td wire:model="totalPrice">{{ $totalPrice }}</td>
-                            </tr>
-                        </tfoot> -->
                     </table>
 
+                    @if($totalPrice > 0)
                     <!-- Calculation -->
-                    <div class="mt-6">
+                    <div class="mt-6" x-transition:enter="ease-in-out duration-300">
                         <h1 class="font-semibold text-xl text-gray-500 ">Amount</h1>
                         <div class="flex items-center ">
                             <label for="total" class="font-semibild text-gray-600 text-lg mr-2">Total:</label>
                             <h1 id="total" wire:model="totalPrice">{{ $totalPrice }}</h1>
                         </div>
-
                     </div>
+                    @endif
                 </div>
             </div>
         </div>

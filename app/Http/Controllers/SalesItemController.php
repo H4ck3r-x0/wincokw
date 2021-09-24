@@ -15,7 +15,6 @@ class SalesItemController extends Controller
         $categories = ItemCategory::all();
         $units = Unit::all();
         $items = SaleItem::with(['category', 'units'])->get();
-        // dd($items);
         return view('sales.items.create', ['categories' => $categories, 'items' => $items, 'units' => $units]);
     }
 
