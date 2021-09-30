@@ -62,7 +62,7 @@
                 <div class="flex flex-1">
                     <x-button type="button" wire:click.prevent="addProduct" class="mr-3">+ Add Product</x-button>
                     <x-approve-button type="button" wire:click.prevent="saveProduct" class="mr-3">Print</x-approve-button>
-                    <x-button type="button" wire:click.prevent="showProducts">Show Products</x-button>
+                    <!-- <x-button type="button" wire:click.prevent="showProducts">Show Products</x-button> -->
                 </div>
                 <a href="{{ route('createItem') }}" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">Create Item</a>
             </div>
@@ -125,6 +125,24 @@
                                         uppercase
                                         tracking-wider
                                     ">Item Price</th>
+                            <th scope="col" class="
+                                        px-6
+                                        py-3
+                                        text-left text-xs
+                                        font-medium
+                                        text-gray-500
+                                        uppercase
+                                        tracking-wider
+                                    ">total</th>
+                            <th scope="col" class="
+                                        px-6
+                                        py-3
+                                        text-left text-xs
+                                        font-medium
+                                        text-gray-500
+                                        uppercase
+                                        tracking-wider
+                                    ">total Disc</th>
                             <th scope="col" class="
                                         px-6
                                         py-3
@@ -224,6 +242,27 @@
                                         </div>
                                     </div>
                                 </td>
+
+                                <td class="whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="ml-4">
+                                            <!-- Item Price -->
+                                            <div class="mr-4">
+                                                <input type="text" size="2" value="{{ (int)$offerProducts[$index]['item_price'] * (int)$offerProducts[$index]['quantity']}}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="ml-4">
+                                            <!-- Item Price -->
+                                            <div class="mr-4">
+                                                <input type="text" size="2" value="{{ (int)$offerProducts[$index]['item_price'] * (int)$offerProducts[$index]['quantity'] - (int)$offerProducts[$index]['disc']}}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
                                 <td>
                                     <div class="flex items-center">
                                         <div class="ml-4">
@@ -242,7 +281,6 @@
                         </tbody>
                     </table>
 
-                    @if($totalPrice > 0)
                     <!-- Calculation -->
                     <div class="mt-6" x-transition:enter="ease-in-out duration-300">
                         <h1 class="font-semibold text-xl text-gray-500 ">Amount</h1>
@@ -251,10 +289,18 @@
                             <h1 id="total" wire:model="totalPrice">{{ $totalPrice }}</h1>
                         </div>
                     </div>
-                    @endif
+
                 </div>
             </div>
         </div>
     </div>
+    <!-- <script>
+        window.addEventListener("beforeunload", function(e) {
+            let confirmationMessage = 'It looks like you have been editing something. ' +
+                'If you leave before saving, your changes will be lost.';
 
+            (e || window.event).returnValue = confirmationMessage;
+            return confirmationMessage;
+        });
+    </script> -->
 </div>

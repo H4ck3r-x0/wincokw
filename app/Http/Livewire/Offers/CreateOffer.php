@@ -54,9 +54,15 @@ class CreateOffer extends Component
             function ($total, $item) {
                 $itemPrice = (int)$item['item_price'];
                 $discount = (int)$item['disc'];
-                if ($discount && $discount > 0) {
-                    $itemPrice = $itemPrice - $discount;
+                $discountValue = 0;
+                if ($discount && $discount > 0  && $discount <= $itemPrice) {
+                    $discountValue = $discount;
+                    $itemPrice = $itemPrice - $discountValue;
                     $total += $itemPrice * (int)$item['quantity'];
+                } else if ($discount > $itemPrice) {
+                    $discountValue = $itemPrice;
+                    $itemPrice = $itemPrice - $discountValue;
+                    $total += (int)$itemPrice * (int)$item['quantity'];
                 } else {
                     $total += (int)$item['item_price'] * (int)$item['quantity'];
                 }
@@ -77,8 +83,13 @@ class CreateOffer extends Component
             $this->offerProducts[$index]['quantity'] = $value;
             $this->emit('getTotalPrice');
         } else if ($key === $index . ".disc") {
-            $this->offerProducts[$index]['disc'] = $value;
-            $this->emit('getTotalPrice');
+            if ($this->offerProducts[$index]['disc'] > $this->offerProducts[$index]['item_price'] || $this->offerProducts[$index]['disc'] == $this->offerProducts[$index]['item_price']) {
+                $this->offerProducts[$index]['disc'] = 0;
+                $this->emit('getTotalPrice');
+            } else {
+                $this->offerProducts[$index]['disc'] = $value;
+                $this->emit('getTotalPrice');
+            }
         } else if ($key === $index . ".quantity2") {
             $this->offerProducts[$index]['quantity2'] = $value;
             $this->emit('getTotalPrice');
