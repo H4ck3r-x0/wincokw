@@ -16,10 +16,11 @@
                     <div class="flex">
 
                         <!-- Client -->
-                        <div class="w-full mr-4">
+                        <div wire:ignore class="w-full mr-4">
                             <x-label for="client" :value="__('Client Name')" />
-                            <select name="client_id" id="client" class="w-full">
-                                @foreach($clients as $client)
+                            <select id="select-client" class=" w-full" name="client_id" wire:model="client_id">
+                                <option value="">Select Client</option>
+                                @foreach ($clients as $client)
                                 <option value="{{ $client->id }}">{{ $client->fullname }}</option>
                                 @endforeach
                             </select>
@@ -170,8 +171,8 @@
                                     <div class="flex items-center">
                                         <div class="ml-4">
                                             <!-- Products Name -->
-                                            <div>
-                                                <select name="offerProducts[{{$index}}][item_name]" wire:model="offerProducts.{{$index}}.item_name">
+                                            <div wire:ignore>
+                                                <select id="new-item" name="offerProducts[{{$index}}][item_name]" wire:model="offerProducts.{{$index}}.item_name">
                                                     <option value="">Choose an item</option>
                                                     @foreach($saleItems as $product)
                                                     <option value="{{ $product->item_name}}">
@@ -242,7 +243,6 @@
                                         </div>
                                     </div>
                                 </td>
-
                                 <td class="whitespace-nowrap">
                                     <div class="flex items-center">
                                         <div class="ml-4">
@@ -258,7 +258,7 @@
                                         <div class="ml-4">
                                             <!-- Item Price -->
                                             <div class="mr-4">
-                                                <input type="text" size="2" value="{{ (int)$offerProducts[$index]['item_price'] * (int)$offerProducts[$index]['quantity'] - (int)$offerProducts[$index]['disc']}}">
+                                                <input type="text" size="2" disabled value="{{ (int)$offerProducts[$index]['item_price'] * (int)$offerProducts[$index]['quantity'] - (int)$offerProducts[$index]['disc']}}">
                                             </div>
                                         </div>
                                     </div>
@@ -303,4 +303,21 @@
             return confirmationMessage;
         });
     </script> -->
+
+    <script>
+        document.addEventListener('livewire:load', function() {
+            Livewire.hook('message.processed', (message, component) => {
+
+                $(`#new-item`).select2();
+            })
+        })
+
+        $(document).ready(function() {
+            $('#select-client').select2();
+            $('#select-client').on('change', function(e) {
+                var data = $('#select-client').select2("val");
+                // @this.set('gallery_id', data);
+            });
+        });
+    </script>
 </div>

@@ -32,6 +32,9 @@ class CreateOffer extends Component
         'offerExperationDate' => 'required',
     ];
 
+
+
+
     public function updated($propertyName)
     {
         $this->validateOnly($propertyName);
